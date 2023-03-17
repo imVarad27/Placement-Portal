@@ -1,69 +1,82 @@
-<section class="vh-100" style="background-color: #508bfc">
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
-    crossorigin="anonymous"
-  />
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-        <div class="card shadow-2-strong" style="border-radius: 1rem">
-          <div class="card-body p-5 text-center">
-            <h3 class="mb-5">Sign in</h3>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <section class="vh-100" style="background-color: #508bfc">
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-2-strong" style="border-radius: 1rem">
+              <div class="card-body p-5 text-center">
+                <h3 class="mb-5">Sign in</h3>
 
-            <div class="form-outline mb-4">
-              <input
-                type="email"
-                id="typeEmailX-2"
-                class="form-control form-control-lg"
-              />
-              <label class="form-label" for="typeEmailX-2">Email</label>
-            </div>
+                <div class="form-outline mb-4">
+                  <input
+                    type="email"
+                    id="typeEmailX-2"
+                    class="form-control form-control-lg"
+                  />
+                  <label class="form-label" for="typeEmailX-2">Email</label>
+                </div>
 
-            <div class="form-outline mb-4">
-              <input
-                type="password"
-                id="typePasswordX-2"
-                class="form-control form-control-lg"
-              />
-              <label class="form-label" for="typePasswordX-2">Password</label>
+                <div class="form-outline mb-4">
+                  <input
+                    type="password"
+                    id="typePasswordX-2"
+                    class="form-control form-control-lg"
+                  />
+                  <label class="form-label" for="typePasswordX-2"
+                    >Password</label
+                  >
+                </div>
+                <button
+                  class="btn btn-primary btn-lg btn-block"
+                  type="submit"
+                  onclick="auth()"
+                >
+                  Student Login
+                </button>
+                <button
+                  class="btn btn-primary btn-lg btn-block"
+                  id="admin"
+                  type="submit"
+                  onclick="auth()"
+                >
+                  Admin Login
+                </button>
+                <hr class="my-4" />
+              </div>
             </div>
-            <button
-              class="btn btn-primary btn-lg btn-block"
-              type="submit"
-              onclick="auth()"
-            >
-              Student Login
-            </button>
-            <button
-              class="btn btn-primary btn-lg btn-block"
-              id="admin"
-              type="submit"
-              onclick="auth()"
-            >
-              Admin Login
-            </button>
-            <hr class="my-4" />
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-<style>
-  .btn:hover {
-    background-color: rgb(120, 109, 109);
-  }
-</style>
-<script>
-  function auth() {
-    let email = document.getElementById("typeEmailX-2").value;
-    let password = document.getElementById("typePasswordX-2").value;
-    if (email == "admin@gmail.com" && password == "admin123") {
-      window.location.assign("Home.html");
-    } else {
-      alert("Invalid email/password");
-    }
-  }
-</script>
+    </section>
+    <style>
+      .btn:hover {
+        background-color: rgb(120, 109, 109);
+      }
+    </style>
+    <script>
+      function auth() {
+        let email = document.getElementById("typeEmailX-2").value;
+        let password = document.getElementById("typePasswordX-2").value;
+        if (email == "admin@gmail.com" && password == "admin123") {
+          window.location.assign("Home.html");
+        } else {
+          alert("Invalid email/password");
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,110 +1,123 @@
-<link
-  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-  rel="stylesheet"
-  integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
-  crossorigin="anonymous"
-/>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Home</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <div id="list1" class="dropdown-check-list" tabindex="100">
-            <span class="anchor">Select Fruits</span>
-            <ul class="items">
-              <li><input type="checkbox" />Apple</li>
-              <li><input type="checkbox" />Orange</li>
-              <li><input type="checkbox" />Grapes</li>
-              <li><input type="checkbox" />Berry</li>
-              <li><input type="checkbox" />Mango</li>
-              <li><input type="checkbox" />Banana</li>
-              <li><input type="checkbox" />Tomato</li>
-            </ul>
-          </div>
-        </li>
-      </ul>
-      <form class="d-flex" role="search">
-        <input
-          class="form-control me-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-    </div>
-  </div>
-</nav>
-<script>
-  let checkList = document.getElementById("list1");
-  checkList.getElementsByClassName("anchor")[0].onclick = function (evt) {
-    if (checkList.classList.contains("visible"))
-      checkList.classList.remove("visible");
-    else checkList.classList.add("visible");
-  };
-</script>
-<style>
-  .dropdown-check-list {
-    display: inline-block;
-  }
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Home</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <div id="list1" class="dropdown-check-list" tabindex="100">
+                <span class="anchor">Select Fruits</span>
+                <ul class="items">
+                  <li><input type="checkbox" />Apple</li>
+                  <li><input type="checkbox" />Orange</li>
+                  <li><input type="checkbox" />Grapes</li>
+                  <li><input type="checkbox" />Berry</li>
+                  <li><input type="checkbox" />Mango</li>
+                  <li><input type="checkbox" />Banana</li>
+                  <li><input type="checkbox" />Tomato</li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-success" type="submit">
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
+    </nav>
+    <script>
+      let checkList = document.getElementById("list1");
+      checkList.getElementsByClassName("anchor")[0].onclick = function (evt) {
+        if (checkList.classList.contains("visible"))
+          checkList.classList.remove("visible");
+        else checkList.classList.add("visible");
+      };
+    </script>
+    <style>
+      .dropdown-check-list {
+        display: inline-block;
+      }
 
-  .dropdown-check-list .anchor {
-    position: relative;
-    cursor: pointer;
-    display: inline-block;
-    padding: 5px 50px 5px 10px;
-    border: 1px solid #ccc;
-  }
+      .dropdown-check-list .anchor {
+        position: relative;
+        cursor: pointer;
+        display: inline-block;
+        padding: 5px 50px 5px 10px;
+        border: 1px solid #ccc;
+      }
 
-  .dropdown-check-list .anchor:after {
-    position: absolute;
-    content: "";
-    border-left: 2px solid black;
-    border-top: 2px solid black;
-    padding: 5px;
-    right: 10px;
-    top: 20%;
-    -moz-transform: rotate(-135deg);
-    -ms-transform: rotate(-135deg);
-    -o-transform: rotate(-135deg);
-    -webkit-transform: rotate(-135deg);
-    transform: rotate(-135deg);
-  }
+      .dropdown-check-list .anchor:after {
+        position: absolute;
+        content: "";
+        border-left: 2px solid black;
+        border-top: 2px solid black;
+        padding: 5px;
+        right: 10px;
+        top: 20%;
+        -moz-transform: rotate(-135deg);
+        -ms-transform: rotate(-135deg);
+        -o-transform: rotate(-135deg);
+        -webkit-transform: rotate(-135deg);
+        transform: rotate(-135deg);
+      }
 
-  .dropdown-check-list .anchor:active:after {
-    right: 8px;
-    top: 21%;
-  }
+      .dropdown-check-list .anchor:active:after {
+        right: 8px;
+        top: 21%;
+      }
 
-  .dropdown-check-list ul.items {
-    padding: 2px;
-    display: none;
-    margin: 0;
-    border: 1px solid #ccc;
-    border-top: none;
-  }
+      .dropdown-check-list ul.items {
+        padding: 2px;
+        display: none;
+        margin: 0;
+        border: 1px solid #ccc;
+        border-top: none;
+      }
 
-  .dropdown-check-list ul.items li {
-    list-style: none;
-  }
+      .dropdown-check-list ul.items li {
+        list-style: none;
+      }
 
-  .dropdown-check-list.visible .anchor {
-    color: #0094ff;
-  }
+      .dropdown-check-list.visible .anchor {
+        color: #0094ff;
+      }
 
-  .dropdown-check-list.visible .items {
-    display: block;
-  }
-</style>
+      .dropdown-check-list.visible .items {
+        display: block;
+      }
+    </style>
+  </body>
+</html>
