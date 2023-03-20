@@ -1,0 +1,52 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+.anchor {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form {
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px;
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+h3 {
+  text-align: center;
+  margin-bottom: 10px;
+  line-height: 2;
+  letter-spacing: -0.5px;
+}
+button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+li {
+  list-style: none;
+}
+a {
+  color: black;
+  cursor: pointer;
+}
+.nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+hr {
+  margin-bottom: 10px;
+}
+.active {
+  color: black;
+  font-weight: 600;
+}
+a {
+  color: #be4bdb;
+}

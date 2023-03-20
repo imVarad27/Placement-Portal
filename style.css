@@ -1,0 +1,25 @@
+* {
+  font-family: sans-serif;
+}
+body {
+  background-color: #adb5bd;
+}
+.nav {
+  display: flex;
+  justify-content: space-between;
+}
+a {
+  text-decoration: none;
+  cursor: pointer;
+  padding: 2px;
+}
+.user {
+  color: #9c36b5;
+}
+.active {
+  color: black;
+  font-weight: 600;
+}
+.active-line {
+    border
+}
