@@ -12,44 +12,178 @@
     <title>Welcome</title>
   </head>
   <body>
-    <div class="nav">
-      <h3>Welcome To Placement Portal</h3>
-      <ul class="nav-items">
-        <li>Dashboard</li>
-        <li>Create Resume</li>
-        <li>Active Drive</li>
-        <li>Logout</li>
-      </ul>
-    </div>
-    <div class="dashboard-container">
-      <h3>Welcome Abcdef Efghijkl</h3>
-      <div class="dashboard-items">
-        <a href=""
-          ><h4><i class="fas fa-user"></i>&nbsp;&nbsp;&nbsp;Edit Profile</h4></a
-        >
-        <a href=""
-          ><h4>
-            <i class="fa-solid fa-align-center"></i>&nbsp;&nbsp;&nbsp;My
-            Application
-          </h4></a
-        >
-        <a href="">
-          <h4>
-            <i class="fa-solid fa-bell"></i>&nbsp;&nbsp;&nbsp;Notifications
-          </h4>
-        </a>
-        <a href=""
-          ><h4>
-            <i class="fa-solid fa-wrench"></i>&nbsp;&nbsp;&nbsp;Settings
-          </h4></a
-        >
-        <a href=""
-          ><h4>
-            <i class="fa-solid fa-arrow-right-from-bracket"></i
-            >&nbsp;&nbsp;&nbsp;Logout
-          </h4></a
-        >
+    <div class="container">
+      <div class="nav">
+        <h3>Welcome To Placement Portal</h3>
+        <ul class="nav-items">
+          <a href="#">Dashboard</a>
+          <a href="#">Create Resume</a>
+          <a href="#">Active Drive</a>
+          <a href="#">Logout</a>
+        </ul>
+      </div>
+      <div class="page">
+        <div class="dashboard-container">
+          <h3>Welcome Abcdef Efghijkl</h3>
+          <div class="dashboard-items">
+            <a class="dashboard-anchor active-anchor" href=""
+              ><h4>
+                <i class="fas fa-user"></i>&nbsp;&nbsp;&nbsp;Edit Profile
+              </h4></a
+            >
+            <a class="dashboard-anchor" href=""
+              ><h4>
+                <i class="fa-solid fa-align-center"></i>&nbsp;&nbsp;&nbsp;My
+                Application
+              </h4></a
+            >
+            <a class="dashboard-anchor" href="">
+              <h4>
+                <i class="fa-solid fa-bell"></i>&nbsp;&nbsp;&nbsp;Notifications
+              </h4>
+            </a>
+            <a class="dashboard-anchor" href=""
+              ><h4>
+                <i class="fa-solid fa-wrench"></i>&nbsp;&nbsp;&nbsp;Settings
+              </h4></a
+            >
+            <a class="dashboard-anchor" href=""
+              ><h4>
+                <i class="fa-solid fa-arrow-right-from-bracket"></i
+                >&nbsp;&nbsp;&nbsp;Logout
+              </h4></a
+            >
+          </div>
+        </div>
+        <div class="form-student active">
+          <h3>Edit Profile</h3>
+          <div class="student-grid">
+            <div class="align-label">
+              <label for="firstName"><b>First Name</b></label>
+              <input
+                type="text"
+                placeholder="First Name"
+                name="firstName"
+                id="firstName"
+                required
+              />
+            </div>
+            <div class="align-label">
+              <label for="lastName"><b>Last Name</b></label>
+              <input
+                type="text"
+                placeholder="Last Name"
+                name="lastName"
+                id="lastName"
+                required
+              />
+            </div>
+            <div class="align-label">
+              <label for="emailAddress"><b>Email Address</b></label>
+              <input
+                type="text"
+                placeholder="Email Address"
+                name="emailAddress"
+                id="emailAddress"
+                required
+              />
+            </div>
+            <div class="align-label">
+              <label for="address"><b>Address</b></label>
+              <!-- <input
+                type="text"
+                placeholder="address"
+                name="address"
+                id="address address-field"
+                required
+              /> -->
+              <textarea
+                class="textarea"
+                for="address"
+                placeholder="Address"
+              ></textarea>
+            </div>
+            <div class="align-label">
+              <label for="city"><b>City</b></label>
+              <input
+                type="text"
+                placeholder="city"
+                name="city"
+                id="city"
+                required
+              />
+            </div>
+            <div class="align-label">
+              <label for="state"><b>State</b></label>
+              <input
+                type="text"
+                placeholder="state"
+                name="state"
+                id="state"
+                required
+              />
+            </div>
+            <div class="align-label">
+              <label for="10thScore"><b>10th Score</b></label>
+              <input
+                type="text"
+                placeholder="10th Score"
+                name="10thScore"
+                id="10thScore"
+                required
+              />
+            </div>
+            <div class="align-label">
+              <label for="12thScore"><b>12th Score</b></label>
+              <input
+                type="text"
+                placeholder="12th Score"
+                name="12thScore"
+                id="12thScore"
+                required
+              />
+            </div>
+            <div class="align-label">
+              <label for="department"><b>Department</b></label>
+              <input
+                type="text"
+                placeholder="Department"
+                name="department"
+                id="department"
+                required
+              />
+            </div>
+            <div class="align-label">
+              <label for="skills"><b>Skills</b></label>
+              <textarea
+                class="textarea"
+                for="aboutMe"
+                placeholder="Skills"
+              ></textarea>
+            </div>
+            <div class="align-label">
+              <label for="aboutMe"><b>About Me</b></label>
+              <textarea
+                class="textarea"
+                for="aboutMe"
+                placeholder="About Me"
+              ></textarea>
+            </div>
+            <div class="align-label">
+              <label for="CGPA"><b>CGPA</b></label>
+              <input
+                type="text"
+                placeholder="CGPA"
+                name="CGPA"
+                id="CGPA"
+                required
+              />
+            </div>
+            <button type="submit" class="submit-btn">Update Profile</button>
+          </div>
+        </div>
       </div>
     </div>
   </body>
+  <script defer src="index.js"></script>
 </html>
