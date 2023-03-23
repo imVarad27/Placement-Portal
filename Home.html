@@ -47,17 +47,107 @@
           <form class="d-flex" role="search">
             <input
               class="form-control me-2"
+              id="myInput"
               type="search"
               placeholder="Search"
               aria-label="Search"
+              onkeyup="myFunction()"
             />
-            <button class="btn btn-outline-success" type="submit">
-              Search
-            </button>
+            
           </form>
         </div>
       </div>
     </nav>
+    <table id="customers">
+      <tr>
+        <th class="small">PRN</th>
+        <th class="large">Student Name</th>
+        <th class="small">CGPA</th>
+        <th class="small">Stream</th>
+        <th class="large">Email</th>
+        <th class="small">Batch</th>
+      </tr>
+      <tr>
+        <td>20UCS053</td>
+        <td>Varad Sanjay Ghatage</td>
+        <td>8.70</td>
+        <td>Computer Science</td>
+        <td>varadghatage7@gmail.com</td>
+        <td>2020-24</td>
+      </tr>
+      <tr>
+        <td>20UCS054</td>
+        <td>Kshitij Uday Ghorapde</td>
+        <td>8.70</td>
+        <td>Computer Science</td>
+        <td>varadghatage7@gmail.com</td>
+        <td>2020-24</td>
+      </tr>
+      <tr>
+        <td>20UCS055</td>
+        <td>Shirish Manohar Hadpad</td>
+        <td>8.70</td>
+        <td>Computer Science</td>
+        <td>varadghatage7@gmail.com</td>
+        <td>2020-24</td>
+      </tr>
+      <tr>
+        <td>20UCS056</td>
+        <td>Kunal Jadhav</td>
+        <td>8.70</td>
+        <td>Computer Science</td>
+        <td>varadghatage7@gmail.com</td>
+        <td>2020-24</td>
+      </tr>
+      <tr>
+        <td>20UCS057</td>
+        <td>Akshay Suresh Chavan</td>
+        <td>8.70</td>
+        <td>Computer Science</td>
+        <td>varadghatage7@gmail.com</td>
+        <td>2020-24</td>
+      </tr>
+      <tr>
+        <td>20UCS058</td>
+        <td>Aditya Uday Kulkarni</td>
+        <td>8.70</td>
+        <td>Computer Science</td>
+        <td>varadghatage7@gmail.com</td>
+        <td>2020-24</td>
+      </tr>
+      <tr>
+        <td>20UCS059</td>
+        <td>Prathmesh Yogesh Diwan</td>
+        <td>8.70</td>
+        <td>Computer Science</td>
+        <td>varadghatage7@gmail.com</td>
+        <td>2020-24</td>
+      </tr>
+      <tr>
+        <td>20UCS060</td>
+        <td>Rishi Giri</td>
+        <td>8.70</td>
+        <td>Computer Science</td>
+        <td>varadghatage7@gmail.com</td>
+        <td>2020-24</td>
+      </tr>
+      <tr>
+        <td>20UCS053</td>
+        <td>Ankur Gupta</td>
+        <td>8.70</td>
+        <td>Computer Science</td>
+        <td>varadghatage7@gmail.com</td>
+        <td>2020-24</td>
+      </tr>
+      <tr>
+        <td>20UCS053</td>
+        <td>Yash Birla</td>
+        <td>8.70</td>
+        <td>Computer Science</td>
+        <td>varadghatage7@gmail.com</td>
+        <td>2020-24</td>
+      </tr>
+    </table>
     <script>
       let checkList = document.getElementById("list1");
       checkList.getElementsByClassName("anchor")[0].onclick = function (evt) {
@@ -65,6 +155,24 @@
           checkList.classList.remove("visible");
         else checkList.classList.add("visible");
       };
+      function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("customers");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[0,1];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }       
+        }
+      }
     </script>
     <style>
       .dropdown-check-list {
@@ -118,6 +226,35 @@
       .dropdown-check-list.visible .items {
         display: block;
       }
+      #customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td,#customer th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #7950f2;
+  color: white;
+}
+.small{
+  padding: 80px;
+}
+.large{
+  padding: 200px
+}
     </style>
   </body>
 </html>
