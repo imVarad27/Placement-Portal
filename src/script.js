@@ -34,22 +34,12 @@ buttonLogin.addEventListener("click", (e) => {
   }
 });
 
-// links.forEach((link) => {
-//   link.addEventListener("click", (e) => {
-//     e.preventDefault();
-//     forms.classList.toggle("show-signup");
-
-//     const googleClass = document.querySelector(".signup-google");
-//     const elements = userNav.children;
-//     for (i of elements) {
-//       if (i.classList.contains("active-user") && i.innerText === "Recruiter") {
-//         linkedinSignup.classList.toggle("recruiter-inactive");
-//       } else {
-//       }
-//     }
-//     console.log(googleClass.nextElementSibling);
-//   });
-// });
+links.forEach((link) => {
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    forms.classList.toggle("show-signup");
+  });
+});
 
 // userNav.addEventListener("click", (e) => {
 //   if (e.target.tagName === "A") {
