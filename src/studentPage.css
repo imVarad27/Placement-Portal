@@ -15,13 +15,11 @@ body {
   display: none !important;
 }
 .container {
-  position: relative;
   width: 1400px;
   margin: 0 auto;
   top: 10px;
 }
 .nav {
-  position: absolute;
   display: flex;
   justify-content: space-between;
   padding: 20px;
