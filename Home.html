@@ -50,8 +50,7 @@
               id="myInput"
               type="search"
               placeholder="Search"
-              aria-label="Search"
-              onkeyup="myFunction()"
+              onkeyup="searchTable()"
             />
           </form>
         </div>
@@ -66,7 +65,7 @@
         <th class="large">Email</th>
         <th class="small">Batch</th>
       </tr>
-      <tr class="table-row">
+      <tr>
         <td>20UCS053</td>
         <td>Varad Sanjay Ghatage</td>
         <td>8.70</td>
@@ -74,7 +73,7 @@
         <td>varadghatage7@gmail.com</td>
         <td>2020-24</td>
       </tr>
-      <tr class="table-row">
+      <tr>
         <td>20UCS054</td>
         <td>Kshitij Uday Ghorapde</td>
         <td>8.70</td>
@@ -82,7 +81,7 @@
         <td>varadghatage7@gmail.com</td>
         <td>2020-24</td>
       </tr>
-      <tr class="table-row">
+      <tr>
         <td>20UCS055</td>
         <td>Shirish Manohar Hadpad</td>
         <td>8.70</td>
@@ -90,7 +89,7 @@
         <td>varadghatage7@gmail.com</td>
         <td>2020-24</td>
       </tr>
-      <tr class="table-row">
+      <tr>
         <td>20UCS056</td>
         <td>Kunal Jadhav</td>
         <td>8.70</td>
@@ -98,7 +97,7 @@
         <td>varadghatage7@gmail.com</td>
         <td>2020-24</td>
       </tr>
-      <tr class="table-row">
+      <tr>
         <td>20UCS057</td>
         <td>Akshay Suresh Chavan</td>
         <td>8.70</td>
@@ -106,7 +105,7 @@
         <td>varadghatage7@gmail.com</td>
         <td>2020-24</td>
       </tr>
-      <tr class="table-row">
+      <tr>
         <td>20UCS058</td>
         <td>Aditya Uday Kulkarni</td>
         <td>8.70</td>
@@ -114,7 +113,7 @@
         <td>varadghatage7@gmail.com</td>
         <td>2020-24</td>
       </tr>
-      <tr class="table-row">
+      <tr>
         <td>20UCS059</td>
         <td>Prathmesh Yogesh Diwan</td>
         <td>8.70</td>
@@ -122,7 +121,7 @@
         <td>varadghatage7@gmail.com</td>
         <td>2020-24</td>
       </tr>
-      <tr class="table-row">
+      <tr>
         <td>20UCS060</td>
         <td>Rishi Giri</td>
         <td>8.70</td>
@@ -130,7 +129,7 @@
         <td>varadghatage7@gmail.com</td>
         <td>2020-24</td>
       </tr>
-      <tr class="table-row">
+      <tr>
         <td>20UCS053</td>
         <td>Ankur Gupta</td>
         <td>8.70</td>
@@ -138,7 +137,7 @@
         <td>varadghatage7@gmail.com</td>
         <td>2020-24</td>
       </tr>
-      <tr class="table-row">
+      <tr>
         <td>20UCS053</td>
         <td>Yash Birla</td>
         <td>8.70</td>
@@ -148,63 +147,27 @@
       </tr>
     </table>
     <script>
-      function myFunction() {
-        // added class table-row to all the tr tags
-        const table = document.querySelectorAll(".table-row");
-        const input = document.getElementById("myInput").value.toUpperCase();
-        [...table].forEach((row, i) => {
-          const tableData = row.textContent;
-          if (tableData.toUpperCase().indexOf(input) > -1) {
-            row.style.display = "";
-          } else {
-            row.style.display = "none";
+      function searchTable() {
+        console.log("searchTable() function called");
+        let input, filter, table, tr, td, i, j, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("customers");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+          td1 = tr[i].getElementsByTagName("td")[0];
+          td2 = tr[i].getElementsByTagName("td")[1];
+          if (td1 && td2) {
+            txtValue = td1.textContent || td1.innerText;
+            txtValue += " " + (td2.textContent || td2.innerText);
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
           }
-        });
+        }
       }
-      // let checkList = document.getElementById("list1");
-      // checkList.getElementsByClassName("anchor")[0].onclick = function (evt) {
-      //   if (checkList.classList.contains("visible"))
-      //     checkList.classList.remove("visible");
-      //   else checkList.classList.add("visible");
-      // };
-      // function myFunction() {
-      //   const button1 = document.querySelector("#click");
-      //   const button2 = document.querySelector("#click2");
-      //   let input, filter, table, tr, td, i, txtValue;
-      //   input = document.getElementById("myInput");
-      //   filter = input.value.toUpperCase();
-      //   table = document.getElementById("customers");
-      //   tr = table.getElementsByTagName("tr");
-
-      //   button1.addEventListener("click", () => {
-      //     for (i = 0; i < tr.length; i++) {
-      //       td = tr[i].getElementsByTagName("td")[0];
-      //       if (td) {
-      //         txtValue = td.textContent || td.innerText;
-      //         console.log(txtValue);
-      //         if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      //           tr[i].style.display = "";
-      //         } else {
-      //           tr[i].style.display = "none";
-      //         }
-      //       }
-      //     }
-      //   });
-      //   button2.addEventListener("click", () => {
-      //     for (i = 0; i < tr.length; i++) {
-      //       td = tr[i].getElementsByTagName("td")[0];
-      //       if (td) {
-      //         txtValue = td.textContent || td.innerText;
-      //         console.log(txtValue);
-      //         if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      //           tr[i].style.display = "";
-      //         } else {
-      //           tr[i].style.display = "none";
-      //         }
-      //       }
-      //     }
-      //   });
-      // }
     </script>
     <style>
       .dropdown-check-list {
