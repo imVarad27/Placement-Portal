@@ -50,8 +50,7 @@
               id="myInput"
               type="search"
               placeholder="Search"
-              aria-label="Search"
-              onkeyup="myFunction()"
+              onkeyup="searchTable()"
             />
           </form>
         </div>
@@ -148,22 +147,21 @@
       </tr>
     </table>
     <script>
-      let checkList = document.getElementById("list1");
-      checkList.getElementsByClassName("anchor")[0].onclick = function (evt) {
-        if (checkList.classList.contains("visible"))
-          checkList.classList.remove("visible");
-        else checkList.classList.add("visible");
-      };
-      function myFunction() {
-        let input, filter, table, tr, td, i, txtValue;
+      function searchTable() {
+        console.log("searchTable() function called");
+        let input, filter, table, tr, td, i, j, txtValue;
         input = document.getElementById("myInput");
         filter = input.value.toUpperCase();
         table = document.getElementById("customers");
         tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows and columns, and hide those that don't match the search query
         for (i = 0; i < tr.length; i++) {
-          td = tr[i].getElementsByTagName("td")[(0, 1)];
-          if (td) {
-            txtValue = td.textContent || td.innerText;
+          td1 = tr[i].getElementsByTagName("td")[0];
+          td2 = tr[i].getElementsByTagName("td")[1];
+          if (td1 && td2) {
+            txtValue = td1.textContent || td1.innerText;
+            txtValue += " " + (td2.textContent || td2.innerText);
             if (txtValue.toUpperCase().indexOf(filter) > -1) {
               tr[i].style.display = "";
             } else {
