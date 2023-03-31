@@ -28,22 +28,21 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <div id="list1" class="dropdown-check-list" tabindex="100">
-                <span class="anchor">Select Fruits</span>
-                <ul class="items">
-                  <li><input type="checkbox" />Apple</li>
-                  <li><input type="checkbox" />Orange</li>
-                  <li><input type="checkbox" />Grapes</li>
-                  <li><input type="checkbox" />Berry</li>
-                  <li><input type="checkbox" />Mango</li>
-                  <li><input type="checkbox" />Banana</li>
-                  <li><input type="checkbox" />Tomato</li>
-                </ul>
-              </div>
-            </li>
-          </ul>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <label><input type="checkbox" id="check1" class="form-check-input" onchange="filterTable()"> CGPA > 9</label>
+        </li>
+        <li class="nav-item">
+          <label><input type="checkbox" id="check2" class="form-check-input" onchange="filterTable()"> CGPA > 8</label>
+        </li>
+        <li class="nav-item">
+          <label><input type="checkbox" id="check3" class="form-check-input"onchange="filterTable()"> CGPA > 7</label>
+        </li>
+        <li class="nav-item">
+          <label><input type="checkbox" id="check4" class="form-check-input" onchange="filterTable()"> CGPA > 6</label>
+        </li>
+      </ul>
+      </div>
           <form class="d-flex" role="search">
             <input
               class="form-control me-2"
@@ -124,7 +123,7 @@
       <tr>
         <td>20UCS060</td>
         <td>Rishi Giri</td>
-        <td>8.70</td>
+        <td>8</td>
         <td>Computer Science</td>
         <td>varadghatage7@gmail.com</td>
         <td>2020-24</td>
@@ -132,7 +131,7 @@
       <tr>
         <td>20UCS053</td>
         <td>Ankur Gupta</td>
-        <td>8.70</td>
+        <td>9.76</td>
         <td>Computer Science</td>
         <td>varadghatage7@gmail.com</td>
         <td>2020-24</td>
@@ -168,6 +167,36 @@
           }
         }
       }
+      function filterTable() {
+  const checkbox1 = document.getElementById('check1');
+  const checkbox2 = document.getElementById('check2');
+  const checkbox3 = document.getElementById('check3');
+  const checkbox4 = document.getElementById('check4');
+  const tableRows = document.querySelectorAll('#myTable body tr');
+  let td,table,tr;
+  table = document.getElementById("customers");
+  tr = table.getElementsByTagName("tr");
+  let textValue;
+  // Loop through each row and show/hide based on checkbox state
+  for(let i=0;i< tr.length;i++){
+    td = tr[i].getElementsByTagName("td")[2];
+    console.log(td);
+    if(td){
+      textValue = td.innerText
+      if(textValue >= 9 && checkbox1.checked){
+        tr[i].style.display = "";
+      }else if(textValue >= 8 && checkbox2.checked){
+        tr[i].style.display = "";
+      }else if(textValue >= 7 && checkbox3.checked){
+        tr[i].style.display = "";
+      }else if(textValue >= 6 && checkbox4.checked){
+        tr[i].style.display = "";
+      }else{
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
     </script>
     <style>
       .dropdown-check-list {
@@ -255,6 +284,9 @@
       .large {
         padding: 200px;
       }
+      .hidden {
+  display: none;
+}
     </style>
   </body>
 </html>
