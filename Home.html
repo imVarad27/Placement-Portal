@@ -30,16 +30,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <label><input type="checkbox" id="check1" class="form-check-input" onchange="filterTable()"> CGPA > 9</label>
+          <label><input type="checkbox" id="check1" class="form-check-input" onchange="filterTable()"> CGPA 10 - 9</label>
         </li>
         <li class="nav-item">
-          <label><input type="checkbox" id="check2" class="form-check-input" onchange="filterTable()"> CGPA > 8</label>
+          <label><input type="checkbox" id="check2" class="form-check-input" onchange="filterTable()"> CGPA 9 - 8</label>
         </li>
         <li class="nav-item">
-          <label><input type="checkbox" id="check3" class="form-check-input"onchange="filterTable()"> CGPA > 7</label>
+          <label><input type="checkbox" id="check3" class="form-check-input"onchange="filterTable()"> CGPA 8 - 7</label>
         </li>
         <li class="nav-item">
-          <label><input type="checkbox" id="check4" class="form-check-input" onchange="filterTable()"> CGPA > 6</label>
+          <label><input type="checkbox" id="check4" class="form-check-input" onchange="filterTable()"> CGPA 7 - 6.66</label>
         </li>
       </ul>
       </div>
@@ -67,7 +67,7 @@
       <tr>
         <td>20UCS053</td>
         <td>Varad Sanjay Ghatage</td>
-        <td>8.70</td>
+        <td>7.51</td>
         <td>Computer Science</td>
         <td>varadghatage7@gmail.com</td>
         <td>2020-24</td>
@@ -75,7 +75,7 @@
       <tr>
         <td>20UCS054</td>
         <td>Kshitij Uday Ghorapde</td>
-        <td>8.70</td>
+        <td>6.67</td>
         <td>Computer Science</td>
         <td>varadghatage7@gmail.com</td>
         <td>2020-24</td>
@@ -183,13 +183,13 @@
     console.log(td);
     if(td){
       textValue = td.innerText
-      if(textValue >= 9 && checkbox1.checked){
+      if(textValue <= 10 && textValue >= 9 && checkbox1.checked){
         tr[i].style.display = "";
-      }else if(textValue >= 8 && checkbox2.checked){
+      }else if(textValue <= 9 && textValue >= 8 && checkbox2.checked){
         tr[i].style.display = "";
-      }else if(textValue >= 7 && checkbox3.checked){
+      }else if(textValue <= 8 && textValue >= 7 && checkbox3.checked){
         tr[i].style.display = "";
-      }else if(textValue >= 6 && checkbox4.checked){
+      }else if(textValue <= 7 && textValue >= 6.66 && checkbox4.checked){
         tr[i].style.display = "";
       }else{
         tr[i].style.display = "none";
