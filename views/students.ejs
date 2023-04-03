@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Home</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <label><input type="checkbox" id="check1" class="form-check-input" onchange="filterTable()"> CGPA 10 - 9</label>
+        </li>
+        <li class="nav-item">
+          <label><input type="checkbox" id="check2" class="form-check-input" onchange="filterTable()"> CGPA 9 - 8</label>
+        </li>
+        <li class="nav-item">
+          <label><input type="checkbox" id="check3" class="form-check-input"onchange="filterTable()"> CGPA 8 - 7</label>
+        </li>
+        <li class="nav-item">
+          <label><input type="checkbox" id="check4" class="form-check-input" onchange="filterTable()"> CGPA 7 - 6.66</label>
+        </li>
+      </ul>
+      </div>
+          <form class="d-flex" role="search">
+            <input
+              class="form-control me-2"
+              id="myInput"
+              type="search"
+              placeholder="Search"
+              onkeyup="searchTable()"
+            />
+          </form>
+        </div>
+      </div>
+    </nav>
+    <table id="customers">
+      <tr>
+        <th class="small">PRN</th>
+        <th class="large">Student Name</th>
+        <th class="small">CGPA</th>
+        <th class="small">Stream</th>
+        <th class="large">Email</th>
+        <th class="small">Batch</th>
+      </tr>
+      <tbody>
+        <% students.forEach(function(student) { %>
+          <tr>
+            <td><%= student.PRN %></td>
+            <td><%= student.Sname %></td>
+            <td><%= student.CGPA %></td>
+            <td><%= student.Stream %></td>
+            <td><%= student.Email %></td>
+            <td><%= student.Batch %></td>
+          </tr>
+        <% }); %>
+      </tbody>
+      </tr>
+    </table>
+    <script>
+      function searchTable() {
+        console.log("searchTable() function called");
+        let input, filter, table, tr, td, i, j, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("customers");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+          td1 = tr[i].getElementsByTagName("td")[0];
+          td2 = tr[i].getElementsByTagName("td")[1];
+          if (td1 && td2) {
+            txtValue = td1.textContent || td1.innerText;
+            txtValue += " " + (td2.textContent || td2.innerText);
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        }
+      }
+      function filterTable() {
+  const checkbox1 = document.getElementById('check1');
+  const checkbox2 = document.getElementById('check2');
+  const checkbox3 = document.getElementById('check3');
+  const checkbox4 = document.getElementById('check4');
+  const tableRows = document.querySelectorAll('#myTable body tr');
+  let td,table,tr;
+  table = document.getElementById("customers");
+  tr = table.getElementsByTagName("tr");
+  let textValue;
+  // Loop through each row and show/hide based on checkbox state
+  for(let i=0;i< tr.length;i++){
+    td = tr[i].getElementsByTagName("td")[2];
+    console.log(td);
+    if(td){
+      textValue = td.innerText
+      if(textValue <= 10 && textValue >= 9 && checkbox1.checked){
+        tr[i].style.display = "";
+      }else if(textValue <= 9 && textValue >= 8 && checkbox2.checked){
+        tr[i].style.display = "";
+      }else if(textValue <= 8 && textValue >= 7 && checkbox3.checked){
+        tr[i].style.display = "";
+      }else if(textValue <= 7 && textValue >= 6.66 && checkbox4.checked){
+        tr[i].style.display = "";
+      }else{
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+    </script>
+    <style>
+      .dropdown-check-list {
+        display: inline-block;
+      }
+
+      .dropdown-check-list .anchor {
+        position: relative;
+        cursor: pointer;
+        display: inline-block;
+        padding: 5px 50px 5px 10px;
+        border: 1px solid #ccc;
+      }
+
+      .dropdown-check-list .anchor:after {
+        position: absolute;
+        content: "";
+        border-left: 2px solid black;
+        border-top: 2px solid black;
+        padding: 5px;
+        right: 10px;
+        top: 20%;
+        -moz-transform: rotate(-135deg);
+        -ms-transform: rotate(-135deg);
+        -o-transform: rotate(-135deg);
+        -webkit-transform: rotate(-135deg);
+        transform: rotate(-135deg);
+      }
+
+      .dropdown-check-list .anchor:active:after {
+        right: 8px;
+        top: 21%;
+      }
+
+      .dropdown-check-list ul.items {
+        padding: 2px;
+        display: none;
+        margin: 0;
+        border: 1px solid #ccc;
+        border-top: none;
+      }
+
+      .dropdown-check-list ul.items li {
+        list-style: none;
+      }
+
+      .dropdown-check-list.visible .anchor {
+        color: #0094ff;
+      }
+
+      .dropdown-check-list.visible .items {
+        display: block;
+      }
+      #customers {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      #customers td,
+      #customer th {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+      }
+
+      #customers tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      #customers tr:hover {
+        background-color: #ddd;
+      }
+
+      #customers th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #7950f2;
+        color: white;
+      }
+      .small {
+        padding: 80px;
+      }
+      .large {
+        padding: 200px;
+      }
+      .hidden {
+  display: none;
+}
+    </style>
+  </body>
+</html>

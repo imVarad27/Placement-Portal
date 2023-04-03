@@ -1,0 +1,1 @@
+db.Student.findOne({PRN: "20UCS054"})
