@@ -10,7 +10,9 @@
       integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
       crossorigin="anonymous"
     />
-    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+    <title>Students</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -78,6 +80,7 @@
       </tbody>
       </tr>
     </table>
+    <button id="print">Download PDF</button>
     <script>
       function searchTable() {
         console.log("searchTable() function called");
@@ -110,7 +113,6 @@
   table = document.getElementById("customers");
   tr = table.getElementsByTagName("tr");
   let textValue;
-  // Loop through each row and show/hide based on checkbox state
   for(let i=0;i< tr.length;i++){
     td = tr[i].getElementsByTagName("td")[2];
     console.log(td);
@@ -130,7 +132,30 @@
     }
   }
 }
-    </script>
+let printBtn = document.getElementById('print');
+printBtn.addEventListener('click', function(){
+  const css = `
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    td, th {
+      border: 1px solid black;
+      padding: 8px;
+    }
+    td:not(:last-child), th:not(:last-child) {
+      border-right: 1px solid black;
+    }
+  </style>
+`; 
+  var tableHtml = document.getElementById("customers").outerHTML;
+  var newWin = window.open("");
+  newWin.document.write('<html><head><title>Print Table</title>' + css + '</head><body>' + tableHtml + '</body></html>');
+  newWin.print();
+  newWin.close();
+})
+   </script>
     <style>
       .dropdown-check-list {
         display: inline-block;
@@ -220,6 +245,22 @@
       .hidden {
   display: none;
 }
+@media print {
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  th, td {
+    text-align: left;
+    padding: 8px;
+    border: 1px solid black;
+  }
+  th {
+    background-color: #f2f2f2;
+    color: #333;
+  }
+}
+
     </style>
   </body>
 </html>
