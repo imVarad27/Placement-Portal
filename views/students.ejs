@@ -10,14 +10,45 @@
       integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
       crossorigin="anonymous"
     />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
     <title>Students</title>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Home</a>
+        <div class="menu-container">
+          <div class="menu-icon" onclick="toggleMenu()" style="background-color:#ced4da;">
+            <div class="menu-line"></div>
+            <div class="menu-line"></div>
+            <div class="menu-line"></div>
+          </div>
+          <div id="sliding-menu">
+            <div class="logo-container">
+              <h3 class="logo">Placement<br>Portal</h3>
+            </div>
+            <div class="close-btn" onclick="toggleMenu()"><span style="font-weight: bold;">X</span></div>
+            <ul class="menuItem">
+              <li><a href="#" id="opt1" style="color: #0f0f0f;"><h5>Dashboard</h5></a></li>
+                <button  class="dropdown-btn"style="color: #0f0f0f;"><h5>Filter by Branch <i class="fa fa-caret-down"></i></h5> 
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-container">
+                 <li><label><input type="checkbox" id="cse-check" class="form-check-input" onchange="filter()">CSE</label></li>
+                 <li><label><input type="checkbox" id="ai-check" class="form-check-input" onchange="filter()">AI</label></li>
+                 <li><label><input type="checkbox" id="entc-check" class="form-check-input" onchange="filter()">ENTC</label></li>
+                 <li><label><input type="checkbox" id="ee-check" class="form-check-input" onchange="filter()">ETC</label></li>
+                </div>
+                <span class="caret" style="color: #0f0f0f;"></span>
+              </li>
+              <span class="caret" style="color: #0f0f0f;"></span>
+              <li style="margin-top: 0px;"><a href="#" id="opt" style="color: #0f0f0f;"><h5>All Selected Students</h5></a></li>
+              <li style="margin-top: 0px;"><a href="#" id="opt" style="color: #0f0f0f;"><h5>Selected from CSE</h5></a></li>
+              <li style="margin-top: 0px;"><a href="#" id="opt" style="color: #0f0f0f;"><h5>Selected from MECH</h5></a></li>
+              <li style="margin-top: 0px;"><a href="#" id="opt" style="color: #0f0f0f;"><h5>Selected from ENTC</h5></a></li>
+            </ul>
+          </div>          
+        </div>
+        <span style="font-style: oblique;font-weight:bold;margin-left: 50px;"><h4 style="margin-bottom: 0px;">Dashboard</h4></span> 
+               
         <button
           class="navbar-toggler"
           type="button"
@@ -30,22 +61,18 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <label><input type="checkbox" id="check1" class="form-check-input" onchange="filterTable()"> CGPA 10 - 9</label>
-        </li>
-        <li class="nav-item">
-          <label><input type="checkbox" id="check2" class="form-check-input" onchange="filterTable()"> CGPA 9 - 8</label>
-        </li>
-        <li class="nav-item">
-          <label><input type="checkbox" id="check3" class="form-check-input"onchange="filterTable()"> CGPA 8 - 7</label>
-        </li>
-        <li class="nav-item">
-          <label><input type="checkbox" id="check4" class="form-check-input" onchange="filterTable()"> CGPA 7 - 6.66</label>
-        </li>
-      </ul>
+          <div class="select-wrapper">
+            <select id="cgpa-filter" onchange="filterTable()">
+              <option value="" id="check1">Filter</option>
+              <option value="9">CGPA > 9</option>
+              <option value="8">CGPA > 8</option>
+              <option value="7">CGPA > 7</option>
+              <option value="6.66">CGPA > 6.66</option>
+            </select>
+            <span class="caret"></span>
+          </div>   
       </div>
-          <form class="d-flex" role="search">
+          <form class="d-flex" role="search" style="margin-right: 0px;">
             <input
               class="form-control me-2"
               id="myInput"
@@ -55,7 +82,6 @@
             />
           </form>
         </div>
-      </div>
     </nav>
     <table id="customers">
       <tr>
@@ -70,7 +96,7 @@
         <% students.forEach(function(student) { %>
           <tr>
             <td><%= student.PRN %></td>
-            <td><%= student.Sname %></td>
+            <td><%= student.Name %></td>
             <td><%= student.CGPA %></td>
             <td><%= student.Stream %></td>
             <td><%= student.Email %></td>
@@ -103,35 +129,7 @@
           }
         }
       }
-      function filterTable() {
-  const checkbox1 = document.getElementById('check1');
-  const checkbox2 = document.getElementById('check2');
-  const checkbox3 = document.getElementById('check3');
-  const checkbox4 = document.getElementById('check4');
-  const tableRows = document.querySelectorAll('#myTable body tr');
-  let td,table,tr;
-  table = document.getElementById("customers");
-  tr = table.getElementsByTagName("tr");
-  let textValue;
-  for(let i=0;i< tr.length;i++){
-    td = tr[i].getElementsByTagName("td")[2];
-    console.log(td);
-    if(td){
-      textValue = td.innerText
-      if(textValue <= 10 && textValue >= 9 && checkbox1.checked){
-        tr[i].style.display = "";
-      }else if(textValue <= 9 && textValue >= 8 && checkbox2.checked){
-        tr[i].style.display = "";
-      }else if(textValue <= 8 && textValue >= 7 && checkbox3.checked){
-        tr[i].style.display = "";
-      }else if(textValue <= 7 && textValue >= 6.66 && checkbox4.checked){
-        tr[i].style.display = "";
-      }else{
-        tr[i].style.display = "none";
-      }
-    }
-  }
-}
+      
 let printBtn = document.getElementById('print');
 printBtn.addEventListener('click', function(){
   const css = `
@@ -155,8 +153,97 @@ printBtn.addEventListener('click', function(){
   newWin.print();
   newWin.close();
 })
+const slidingMenu = document.getElementById('sliding-menu');
+const cancelBtn = document.getElementById('cancel-btn');
+
+function toggleMenu() {
+        document.querySelector('.menu-container').classList.toggle('active');
+        document.querySelector('#sliding-menu').classList.toggle('active');
+      }
+const cseCheckbox = document.getElementById("cse-check");
+const eeCheckbox = document.getElementById("ee-check");
+const entcCheckbox = document.getElementById("entc-check");
+const aiCheckbox = document.getElementById("ai-check");
+const select = document.getElementById('cgpa-filter');
+
+function filterTable() {
+  const selectedValue = select.value;
+  const tableRows = document.querySelectorAll('#customers tbody tr');
+  tableRows.forEach((row, index) => {
+    if (index === 0) return;
+    const cgpaCell = row.cells[2];
+    const cgpa = parseFloat(cgpaCell.textContent);
+    const showRow = (selectedValue === '' || cgpa > selectedValue);
+    row.style.display = showRow ? '' : 'none';
+  });
+}
+
+function filter() {
+  let td, table, tr;
+  table = document.getElementById("customers");
+  tr = table.getElementsByTagName("tr");
+  
+  for (let i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[3];
+    if (td) {
+      textValue = td.innerText;
+      if ((cseCheckbox.checked && textValue === "Computer Science and Engineering") ||
+          (eeCheckbox.checked && textValue === "Electrical Engineering") ||
+          (entcCheckbox.checked && textValue === "Electronics and Telecommunication Engineering") || 
+          (aiCheckbox.checked && textValue === "Artificial Intelligence") ) {
+        const cgpaCell = tr[i].getElementsByTagName("td")[2];
+        const cgpa = parseFloat(cgpaCell.textContent);
+        const selectedValue = select.value;
+        const showRow = (selectedValue === '' || cgpa > selectedValue);
+        tr[i].style.display = showRow ? '' : 'none';
+      } else if (!cseCheckbox.checked && !eeCheckbox.checked && !entcCheckbox.checked && !aiCheckbox.checked) {
+        const cgpaCell = tr[i].getElementsByTagName("td")[2];
+        const cgpa = parseFloat(cgpaCell.textContent);
+        const selectedValue = select.value;
+        const showRow = (selectedValue === '' || cgpa > selectedValue);
+        tr[i].style.display = showRow ? '' : 'none';
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+
+function applyFilters() {
+  filterTable();
+  filter();
+}
+
+cseCheckbox.addEventListener("change", applyFilters);
+eeCheckbox.addEventListener("change", applyFilters);
+entcCheckbox.addEventListener("change", applyFilters);
+aiCheckbox.addEventListener("change", applyFilters);
+select.addEventListener("change", applyFilters);
+
+applyFilters();
+
+      var dropdown = document.getElementsByClassName("dropdown-btn");
+var i;
+
+for (i = 0; i < dropdown.length; i++) {
+  dropdown[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var dropdownContent = this.nextElementSibling;
+    if (dropdownContent.style.display === "block") {
+      dropdownContent.style.display = "none";
+    } else {
+      dropdownContent.style.display = "block";
+    }
+  });
+}
    </script>
     <style>
+      h3{
+        text-decoration: underline;
+        text-decoration-thickness: 7px;
+        text-decoration-color: #7950f2;
+        border-radius: 10px;
+      }
       .dropdown-check-list {
         display: inline-block;
       }
@@ -240,7 +327,7 @@ printBtn.addEventListener('click', function(){
         padding: 80px;
       }
       .large {
-        padding: 200px;
+        padding: 100px;
       }
       .hidden {
   display: none;
@@ -260,7 +347,350 @@ printBtn.addEventListener('click', function(){
     color: #333;
   }
 }
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+  font-family: Arial, sans-serif;
+  color: #333;
+  margin-left: 50px;
+}
 
+.select-wrapper select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 100px;
+  cursor: pointer;
+  outline: none;
+}
+
+.select-wrapper select::-ms-expand {
+  display: none;
+}
+
+.select-wrapper .caret {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #ccc;
+  pointer-events: none;
+}
+#cgpa-filter {
+  padding: 8px;
+  border: none;
+  background-color: #f2f2f2;
+  color: #444;
+  font-size: 16px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  outline: none;
+  transition: background-color 0.3s ease;
+  margin-left: 1000px;
+}
+
+#cgpa-filter:hover {
+  background-color: #9f9fa0;
+}
+
+#cgpa-filter:focus {
+  background-color: #fff;
+  -webkit-box-shadow: 0 0 0 2px #007bff;
+  box-shadow: 0 0 0 2px #007bff;
+}
+.menu-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 18px;
+  cursor: pointer;
+}
+.menu-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  height: 50px;
+  background-color: #f2f2f2;
+  padding-right: 20px;
+}
+
+.menu-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+  margin-left: 10px;
+}
+
+.menu-line {
+  height: 2px;
+  width: 100%;
+  background-color: #333;
+  margin-bottom: 4px;
+}
+
+.menu-options {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  display: none;
+  z-index: 1;
+  color: #333;
+}
+
+.menu-options li {
+  list-style-type: none;
+  margin-bottom: 5px;
+}
+
+.menu-options li a {
+  color: black;
+  text-decoration: none;
+  display: block;
+  padding: 10px 20px;
+}
+#sliding-menu a {
+  color: black;
+}
+.show-menu-options {
+  display: block;
+}
+#sliding-menu {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: -300px;
+  width: 300px;
+  background-color:rgba(192,192,192,0.3);  
+  transition: left 0.5s;
+  z-index: 999;
+}
+
+#sliding-menu.show {
+  left: 0;
+}
+#sliding-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+#sliding-menu li a {
+  color: black;
+  text-decoration: none;
+  display: block;
+  padding: 10px 20px;
+}
+#cancel-btn {
+  margin-top: 20px;
+  display: block;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+.menu-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  padding: 10px;
+}
+
+.menu-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 20px;
+  cursor: pointer;
+}
+
+.menu-line {
+  width: 25px;
+  height: 2px;
+  background-color: #fff;
+  transition: transform 0.3s ease-in-out;
+}
+
+.menu-line:nth-child(1) {
+  transform-origin: top left;
+}
+
+.menu-line:nth-child(2) {
+  transform-origin: center;
+}
+
+.menu-line:nth-child(3) {
+  transform-origin: bottom left;
+}
+
+.menu-container.active .menu-line:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-container.active .menu-line:nth-child(2) {
+  transform: scaleX(0);
+}
+
+.menu-container.active .menu-line:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+#sliding-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  overflow: hidden;
+  background-color: #a9a9a9;
+  transition: width 0.3s ease-in-out;
+}
+
+#sliding-menu.active {
+  width: 250px;
+}
+
+#sliding-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 50px 0 0 0;
+}
+
+#sliding-menu ul li {
+  margin: 20px 0 0 0;
+  text-align: center;
+}
+
+#sliding-menu ul li a {
+  color: #fff;
+  font-size: 24px;
+  text-decoration: none;
+}
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  color: gray;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: black;
+}
+#opt{
+  color: #0f0f0f;
+  padding: 8px 76px 8px 75px;
+  font-size: 6px;
+  text-align: left;
+  padding: 0%;
+  margin-top: 5%;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 0 #7950f2;
+  -webkit-transition: ease-out 0.4s;
+  -moz-transition: ease-out 0.4s;
+  transition: ease-out 0.4s;
+}
+#opt1{
+  color: #0f0f0f;
+  padding: 8px 76px 8px 75px;
+  font-size: 6px;
+  text-align: left;
+  padding: 0%;
+  margin-top: 40%;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 0 #7950f2;
+  -webkit-transition: ease-out 0.4s;
+  -moz-transition: ease-out 0.4s;
+  transition: ease-out 0.4s;
+}
+#opt:hover {
+  box-shadow: inset 400px 0 0 0 #7950f2;
+}
+#opt1:hover{
+  box-shadow: inset 400px 0 0 0 #7950f2;
+}
+.menu-container {
+  background-color: white;
+}
+.logo-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px;
+  }
+
+  .logo {
+    margin: 0;
+    font-weight: bold;
+    color: black;
+  }
+  .menuItem{
+    margin-top: 20%;
+  }
+  .dropdown-btn {
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+    border: none;
+    margin-top: 5%;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+  box-shadow: inset 0 0 0 0 #7950f2;
+  -webkit-transition: ease-out 0.4s;
+  -moz-transition: ease-out 0.4s;
+  transition: ease-out 0.4s;
+    outline: none;
+  }
+  .dropdown-btn:hover{
+    box-shadow: inset 400px 0 0 0 #7950f2;
+  }
+  .dropdown-container {
+    display: none;
+    background-color: #a9a9a9;
+    margin-left: 0px;
+  }
+  .form-check-input {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    border-radius: 3px;
+    background-color: #fff;
+    border: 2px solid #ccc;
+  }
+  
+  .form-check-input:checked {
+    background-color: #337ab7;
+    border-color: #337ab7;
+  }
+  li label {
+    display: flex;
+    align-items: center;
+    vertical-align: middle;
+  }
+  
     </style>
   </body>
 </html>

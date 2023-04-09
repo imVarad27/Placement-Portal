@@ -17,18 +17,20 @@ mongoose
   });
 const studentSchema = new mongoose.Schema({
   PRN: String,
-  Sname: String,
+  Name: String,
   CGPA: Number,
   Stream: String,
   Email: String,
   Batch: Number,
+  Password: String,
+  IsSelected: Boolean,
+  KT: Boolean,
 });
 
-const Student = mongoose.model("Student", studentSchema);
-
+const Student = mongoose.model("StudentDB", studentSchema, "StudentDB");
 app.get("/", async (req, res) => {
   try {
-    const students = await Student.find();
+    const students = await Student.find().sort({ PRN: 1 });
 
     console.log("Found students:", students);
 

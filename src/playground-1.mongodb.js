@@ -13,11 +13,5 @@
 use("mongodbVSCodePlaygroundDB");
 
 // Insert a few documents into the sales collection.
-db.students.insertOne({
-  PRN: "20UCS059",
-  Sname: "Kunal Jadhav",
-  CGPA: 8.0,
-  Stream: "Computer Science",
-  Email: "Kunal7@gmail.com",
-  Batch: 2020,
-});
+db.students.find().sort({ PRN: 1 });
+db.students.updateMany({}, [{ $sort: { PRN: 1 } }]);
