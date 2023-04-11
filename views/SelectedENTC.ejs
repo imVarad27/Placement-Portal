@@ -28,7 +28,7 @@
             </div>
             <div class="close-btn" onclick="toggleMenu()"><span style="font-weight: bold;">X</span></div>
             <ul class="menuItem">
-              <li><a href="#" id="opt1" style="color: #0f0f0f;"><h5>Dashboard</h5></a></li>
+              <li><a href="/" id="opt1" style="color: #0f0f0f;"><h5>Dashboard</h5></a></li>
                 <button  class="dropdown-btn"style="color: #0f0f0f;"><h5>Filter by Branch <i class="fa fa-caret-down"></i></h5> 
                   <i class="fa fa-caret-down"></i>
                 </button>
@@ -41,14 +41,14 @@
                 <span class="caret" style="color: #0f0f0f;"></span>
               </li>
               <span class="caret" style="color: #0f0f0f;"></span>
-              <li style="margin-top: 0px;"><a href="/isSelected" id="opt" class="All-Selected"style="color: #0f0f0f;"><h5>All Selected Students</h5></a></li>
+              <li style="margin-top: 0px;"><a href="/isSelected" id="opt"style="color: #0f0f0f;"><h5>All Selected Students</h5></a></li>
               <li style="margin-top: 0px;"><a href="/SelectedCSE" id="opt" style="color: #0f0f0f;"><h5>Selected from CSE</h5></a></li>
               <li style="margin-top: 0px;"><a href="/SelectedEE" id="opt" style="color: #0f0f0f;"><h5>Selected from EE</h5></a></li>
               <li style="margin-top: 0px;"><a href="/SelectedENTC" id="opt" style="color: #0f0f0f;"><h5>Selected from ENTC</h5></a></li>
             </ul>
           </div>          
         </div>
-        <span style="font-style: oblique;font-weight:bold;margin-left: 50px;"><h4 id="heading" style="margin-bottom: 0px;">Dashboard</h4></span> 
+        <span style="font-style: oblique;font-weight:bold;margin-left: 50px;"><h4 id="heading" style="margin-bottom: 0px;">ENTC Selected Students</h4></span> 
                
         <button
           class="navbar-toggler"
@@ -94,7 +94,7 @@
         <th class="small">Batch</th>
       </tr>
       <tbody>
-        <% students.forEach(function(student) { %>
+        <% selectedStudents.forEach(function(student) { %>
           <tr>
             <td><%= student.PRN %></td>
             <td><%= student.Name %></td>

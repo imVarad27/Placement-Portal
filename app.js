@@ -17,22 +17,82 @@ mongoose
   });
 const studentSchema = new mongoose.Schema({
   PRN: String,
-  Sname: String,
+  Name: String,
   CGPA: Number,
   Stream: String,
   Email: String,
   Batch: Number,
+  Password: String,
+  IsSelected: Boolean,
+  KT: Boolean,
+  Company: String,
 });
 
-const Student = mongoose.model("Student", studentSchema);
-
+const Student = mongoose.model("StudentDB", studentSchema, "StudentDB");
 app.get("/", async (req, res) => {
   try {
-    const students = await Student.find();
+    const students = await Student.find({ IsSelected: false }).sort({ PRN: 1 });
 
     console.log("Found students:", students);
 
     res.render("students", { students });
+  } catch (error) {
+    console.log("Error fetching data from MongoDB Atlas:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+app.get("/isSelected", async (req, res) => {
+  try {
+    const selectedStudents = await Student.find({ IsSelected: true });
+
+    console.log("Found selected students:", selectedStudents);
+
+    res.render("isSelected", { selectedStudents });
+  } catch (error) {
+    console.log("Error fetching data from MongoDB Atlas:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+app.get("/SelectedCSE", async (req, res) => {
+  try {
+    const selectedStudents = await Student.find({
+      IsSelected: true,
+      Stream: "Computer Science and Engineering",
+    });
+
+    console.log("Found selected students:", selectedStudents);
+
+    res.render("SelectedCSE", { selectedStudents });
+  } catch (error) {
+    console.log("Error fetching data from MongoDB Atlas:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+app.get("/SelectedENTC", async (req, res) => {
+  try {
+    const selectedStudents = await Student.find({
+      IsSelected: true,
+      Stream: "Electronics and Telecommunication Engineering",
+    });
+
+    console.log("Found selected students:", selectedStudents);
+
+    res.render("SelectedENTC", { selectedStudents });
+  } catch (error) {
+    console.log("Error fetching data from MongoDB Atlas:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+app.get("/SelectedEE", async (req, res) => {
+  try {
+    const selectedStudents = await Student.find({
+      IsSelected: true,
+      Stream: "Electrical Engineering",
+    });
+
+    console.log("Found selected students:", selectedStudents);
+
+    res.render("SelectedEE", { selectedStudents });
   } catch (error) {
     console.log("Error fetching data from MongoDB Atlas:", error);
     res.status(500).send("Internal Server Error");
