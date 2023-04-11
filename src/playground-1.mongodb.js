@@ -13,5 +13,4 @@
 use("mongodbVSCodePlaygroundDB");
 
 // Insert a few documents into the sales collection.
-db.students.find().sort({ PRN: 1 });
-db.students.updateMany({}, [{ $sort: { PRN: 1 } }]);
+db.StudentDB.updateOne({ PRN: "20UEE006" }, { $set: { IsSelected: true } });
