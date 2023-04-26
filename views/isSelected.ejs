@@ -109,8 +109,10 @@
       </tbody>
       </tr>
     </table>
-    <button id="print">Download PDF</button>
-    <button type="submit" id="company-submit">Update</button>
+    <div id="align-Btn">
+    <button id="print">Download</button>
+    <button id="update">Update</button>
+    </div>
     <script>
       function searchTable() {
         console.log("searchTable() function called");
@@ -697,7 +699,45 @@ for (i = 0; i < dropdown.length; i++) {
     align-items: center;
     vertical-align: middle;
   }
-  
+  #print{
+    display: inline-block;
+  padding: 10px 20px;
+  background-color: #7950f2;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 5px;
+  }
+  #print:hover{
+    background-color: gray;
+  }
+  #print:active{
+    transform: translateY(2px);
+  }
+  #align-Btn{
+    margin-left: 1300px;
+  }
+  #update{
+    display: inline-block;
+  padding: 10px 20px;
+  background-color: #7950f2;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 5px;
+  }
+  #update:hover{
+    background-color: gray;
+  }
+  #update:active{
+    transform: translateY(2px);
+  }
     </style>
   </body>
 </html>

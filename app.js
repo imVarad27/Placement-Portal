@@ -31,10 +31,9 @@ const studentSchema = new mongoose.Schema({
 const Student = mongoose.model("StudentDB", studentSchema, "StudentDB");
 app.get("/", async (req, res) => {
   try {
-    const students = await Student.find({ IsSelected: false }).sort({ PRN: 1 });
-
-    console.log("Found students:", students);
-
+    let students;
+    students = await Student.find({ IsSelected: false }).sort({ PRN: 1 });
+    console.log("Not Selected");
     res.render("students", { students });
   } catch (error) {
     console.log("Error fetching data from MongoDB Atlas:", error);
