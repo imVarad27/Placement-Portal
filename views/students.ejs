@@ -37,6 +37,7 @@
                  <li><label><input type="checkbox" id="ai-check" class="form-check-input" onchange="filter()">AI</label></li>
                  <li><label><input type="checkbox" id="entc-check" class="form-check-input" onchange="filter()">ENTC</label></li>
                  <li><label><input type="checkbox" id="ee-check" class="form-check-input" onchange="filter()">ETC</label></li>
+                 <li><label><input type="checkbox" name="showSelected" class="form-check-input"onchange="toggleSelectAll()">Allow All</label></li>
                 </div>
                 <span class="caret" style="color: #0f0f0f;"></span>
               </li>
@@ -64,11 +65,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <div class="select-wrapper">
             <select id="cgpa-filter" onchange="filterTable()">
-              <option value="" id="check1">Filter</option>
-              <option value="9">CGPA > 9</option>
-              <option value="8">CGPA > 8</option>
-              <option value="7">CGPA > 7</option>
-              <option value="6.66">CGPA > 6.66</option>
+              <option value="" id="check1">All</option>
+              <option value="9">9.5 - 9 CGPA</option>
+              <option value="8.5">9 - 8.5 CGPA</option>
+              <option value="8">8.5 - 8 CGPA</option>
+              <option value="7.5">8 - 7.5 CGPA</option>
+              <option value="7">7.5 - 7 CGPA</option>
+              <option value="6.66">7 - 6.66 CGPA</option>
             </select>
             <span class="caret"></span>
           </div>   
@@ -95,19 +98,19 @@
       </tr>
       <tbody>
         <% students.forEach(function(student) { %>
-          <tr>
-            <td><%= student.PRN %></td>
-            <td><%= student.Name %></td>
-            <td><%= student.CGPA %></td>
-            <td><%= student.Stream %></td>
-            <td><%= student.Email %></td>
-            <td><%= student.Batch %></td>
-          </tr>
-        <% }); %>
+            <tr>
+              <td><%= student.PRN %></td>
+              <td><%= student.Name %></td>
+              <td><%= student.CGPA %></td>
+              <td><%= student.Stream %></td>
+              <td><%= student.Email %></td>
+              <td><%= student.Batch %></td>
+            </tr>
+          <% }); %>
       </tbody>
       </tr>
     </table>
-    <button id="print">Download PDF</button>
+    <button id="print">Download</button>
     <script>
       function searchTable() {
         console.log("searchTable() function called");
@@ -160,6 +163,7 @@ const cancelBtn = document.getElementById('cancel-btn');
 function toggleMenu() {
         document.querySelector('.menu-container').classList.toggle('active');
         document.querySelector('#sliding-menu').classList.toggle('active');
+        document.querySelector('.form-check-input').classList.toggle('active');
       }
 const cseCheckbox = document.getElementById("cse-check");
 const eeCheckbox = document.getElementById("ee-check");
@@ -168,15 +172,22 @@ const aiCheckbox = document.getElementById("ai-check");
 const select = document.getElementById('cgpa-filter');
 
 function filterTable() {
+  const select = document.getElementById('cgpa-filter');
   const selectedValue = select.value;
   const tableRows = document.querySelectorAll('#customers tbody tr');
   tableRows.forEach((row, index) => {
     if (index === 0) return;
     const cgpaCell = row.cells[2];
     const cgpa = parseFloat(cgpaCell.textContent);
-    const showRow = (selectedValue === '' || cgpa > selectedValue);
+    const showRow = (cgpa >= selectedValue && cgpa < (parseFloat(selectedValue) + 0.5));
     row.style.display = showRow ? '' : 'none';
   });
+}
+function submitForm() {
+  const form = document.getElementById("myForm");
+  if (form) {
+    form.submit();
+  }
 }
 
 function filter() {
@@ -195,13 +206,13 @@ function filter() {
         const cgpaCell = tr[i].getElementsByTagName("td")[2];
         const cgpa = parseFloat(cgpaCell.textContent);
         const selectedValue = select.value;
-        const showRow = (selectedValue === '' || cgpa > selectedValue);
+        const showRow = (selectedValue === '' || (cgpa >= selectedValue && cgpa < (parseFloat(selectedValue) + 0.5)));
         tr[i].style.display = showRow ? '' : 'none';
       } else if (!cseCheckbox.checked && !eeCheckbox.checked && !entcCheckbox.checked && !aiCheckbox.checked) {
         const cgpaCell = tr[i].getElementsByTagName("td")[2];
         const cgpa = parseFloat(cgpaCell.textContent);
         const selectedValue = select.value;
-        const showRow = (selectedValue === '' || cgpa > selectedValue);
+        const showRow = (selectedValue === '' || (cgpa >= selectedValue && cgpa < (parseFloat(selectedValue) + 0.5)));
         tr[i].style.display = showRow ? '' : 'none';
       } else {
         tr[i].style.display = "none";
@@ -219,7 +230,6 @@ cseCheckbox.addEventListener("change", applyFilters);
 eeCheckbox.addEventListener("change", applyFilters);
 entcCheckbox.addEventListener("change", applyFilters);
 aiCheckbox.addEventListener("change", applyFilters);
-select.addEventListener("change", applyFilters);
 
 applyFilters();
 
@@ -237,6 +247,21 @@ for (i = 0; i < dropdown.length; i++) {
     }
   });
 }
+function toggleSelectAll() {
+  const selectAllCheckbox = document.getElementById("selectAll");
+  const studentCheckboxes = document.querySelectorAll("input[type='checkbox'][name='student']");
+  
+  if (selectAllCheckbox.checked) {
+    studentCheckboxes.forEach((checkbox) => {
+      checkbox.checked = true;
+    });
+  } else {
+    studentCheckboxes.forEach((checkbox) => {
+      checkbox.checked = false;
+    });
+  }
+}
+
 
    </script>
     <style>
@@ -400,7 +425,8 @@ for (i = 0; i < dropdown.length; i++) {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   outline: none;
   transition: background-color 0.3s ease;
-  margin-left: 1000px;
+  margin-left: 900px;
+  width: auto;
 }
 
 #cgpa-filter:hover {
@@ -694,7 +720,25 @@ for (i = 0; i < dropdown.length; i++) {
     align-items: center;
     vertical-align: middle;
   }
-  
+  #print{
+    display: inline-block;
+  padding: 10px 20px;
+  background-color: #7950f2;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 1400px;
+  margin-top: 5px;
+  }
+  #print:hover{
+    background-color: gray;
+  }
+  #print:active{
+    transform: translateY(2px);
+  }
     </style>
   </body>
 </html>
