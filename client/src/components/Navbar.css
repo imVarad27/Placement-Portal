@@ -70,3 +70,6 @@
 .dropdown:hover .dropdown-content {
   display: block;
 }
+.dropbtn {
+  cursor: pointer;
+}
