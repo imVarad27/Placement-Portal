@@ -3,8 +3,14 @@ import Styles from "./Dashboard.module.css";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import * as XLSX from "xlsx";
+import Slider from "@mui/material/Slider";
 const Dashboard = () => {
   const searchInputRef = useRef();
+  const [showFilter, setShowFilter] = useState(false);
+
+  const setShowFilterHandler = () => {
+    setShowFilter(!showFilter);
+  };
 
   const handlePrint = () => {
     const doc = new jsPDF();
@@ -60,6 +66,7 @@ const Dashboard = () => {
       setSelectedCheckbox([...selectedCheckbox, index]);
     }
   };
+
   const columns = [
     { field: "prn", headerName: "PRN", width: 150 },
     { field: "name", headerName: "Name", width: 250 },
@@ -99,28 +106,93 @@ const Dashboard = () => {
     };
   });
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [cgpa, setCgpa] = useState([0, 10]);
 
+  const cgpaChangeHandler = (event, newValue) => {
+    setCgpa(newValue);
+  };
+
+  const [checked, setChecked] = useState([]);
+
+  const branchCheckboxHandler = (e) => {
+    if (e.target.checked) {
+      setChecked([...checked, e.target.value]);
+    } else {
+      setChecked(checked.filter((item) => item !== e.target.value));
+    }
+  };
+  const [searchTerm, setSearchTerm] = useState("");
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
+  // const filteredStudents = studentsData.filter(
+  //   (student) =>
+  //     student.stream.includes(checked[0]) ||
+  //     student.stream.includes(checked[1]) ||
+  //     student.stream.includes(checked[2]) ||
+  //     student.name
+  //       .toString()
+  //       .toLowerCase()
+  //       .includes(searchTerm.toLowerCase()) ||
+  //     student.stream
+  //       .toString()
+  //       .toLowerCase()
+  //       .includes(searchTerm.toLowerCase()) ||
+  //     student.batch
+  //       .toString()
+  //       .toLowerCase()
+  //       .includes(searchTerm.toLowerCase()) ||
+  //     student.prn.toString().toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
-  const filteredStudents = studentsData.filter(
-    (student) =>
-      student.name
-        .toString()
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      student.stream
-        .toString()
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      student.batch
-        .toString()
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      student.prn.toString().toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const [sortConfig, setSortConfig] = useState({
+    key: null,
+    direction: null,
+  });
+
+  const filteredStudents = studentsData
+    .filter(
+      (student) =>
+        (checked.length === 0 || checked.includes(student?.stream)) &&
+        (student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          student.stream.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          student.batch.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          student.prn.toLowerCase().includes(searchTerm.toLowerCase())) &&
+        student.cgpa >= cgpa[0] &&
+        student.cgpa <= cgpa[1]
+    )
+    .sort((a, b) => {
+      if (!sortConfig.key) {
+        return 0;
+      }
+
+      const directionModifier = sortConfig.direction === "ascending" ? 1 : -1;
+      const aKey = a[sortConfig.key];
+      const bKey = b[sortConfig.key];
+
+      if (aKey < bKey) {
+        return -1 * directionModifier;
+      }
+
+      if (aKey > bKey) {
+        return 1 * directionModifier;
+      }
+
+      return 0;
+    });
+
+  const onSort = (key) => {
+    let direction = "ascending";
+    if (
+      sortConfig &&
+      sortConfig.key === key &&
+      sortConfig.direction === "ascending"
+    ) {
+      direction = "descending";
+    }
+
+    setSortConfig({ key, direction });
+  };
 
   return (
     <React.Fragment>
@@ -129,15 +201,12 @@ const Dashboard = () => {
           <h3> Dashboard</h3>
           <div className={`${Styles["table-students"]}`}>
             <div className={`${Styles["table-buttons"]}`}>
-              <div className={`${Styles["search-box"]}`}>
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input
-                  ref={searchInputRef}
-                  type="text"
-                  placeholder="Search"
-                  onChange={handleSearchChange}
-                ></input>
-              </div>
+              <button onClick={setShowFilterHandler}>
+                <i
+                  className={`${Styles["pdf-icon"]}` + ` fa-solid fa-filter`}
+                ></i>
+                Filter
+              </button>
               <div className={`${Styles["export-buttons"]}`}>
                 <button onClick={handleExport}>
                   <i
@@ -157,22 +226,130 @@ const Dashboard = () => {
                 </button>
               </div>
             </div>
+            {showFilter && (
+              <div className={`${Styles["filter-box"]}`}>
+                <div className={`${Styles["search-box"]}`}>
+                  <i className="fa-solid fa-magnifying-glass"></i>
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    placeholder="Search"
+                    onChange={handleSearchChange}
+                  ></input>
+                </div>
+                <div className={`${Styles["checkbox-style"]}`}>
+                  <div className={`${Styles["checkbox-style__content"]}`}>
+                    <input
+                      id="cse"
+                      value="Computer Science and Engineering"
+                      type="checkbox"
+                      onChange={branchCheckboxHandler}
+                    />
+                    <label htmlFor="cse">Computer Science</label>
+                  </div>
+                  <div className={`${Styles["checkbox-style__content"]}`}>
+                    <input
+                      id="AI"
+                      value="Artificial Intelligence"
+                      type="checkbox"
+                      onChange={branchCheckboxHandler}
+                    />
+                    <label htmlFor="AI">Artificial Intelligence</label>
+                  </div>
+                  <div className={`${Styles["checkbox-style__content"]}`}>
+                    <input
+                      id="Electronics and Telecommunication Engineering"
+                      type="checkbox"
+                      value="Electronics and Telecommunication Engineering"
+                      onChange={branchCheckboxHandler}
+                    />
+                    <label htmlFor="Electronics and Telecommunication">
+                      Electronics and Telecommunication
+                    </label>
+                  </div>
+                  <div className={`${Styles["checkbox-style__content"]}`}>
+                    <input
+                      id="Electrical"
+                      type="checkbox"
+                      value="Electrical Engineering"
+                      onChange={branchCheckboxHandler}
+                    />
+                    <label htmlFor="Electrical">Electrical</label>
+                  </div>
+                  <div className={`${Styles["checkbox-style__content"]}`}>
+                    <input
+                      id="Mechanical"
+                      type="checkbox"
+                      value="Mechanical Engineering"
+                      onChange={branchCheckboxHandler}
+                    />
+                    <label htmlFor="Mechanical">Mechanical</label>
+                  </div>
+                  <div className={`${Styles["checkbox-style__content"]}`}>
+                    <input
+                      id="Civil"
+                      value="Civil Engineering"
+                      type="checkbox"
+                      onChange={branchCheckboxHandler}
+                    />
+                    <label htmlFor="Civil">Civil</label>
+                  </div>
+                </div>
+                <div className={`${Styles["slider"]}}`}>
+                  <Slider
+                    value={cgpa}
+                    onChange={cgpaChangeHandler}
+                    valueLabelDisplay="auto"
+                    min={0}
+                    max={10}
+                    step={0.1}
+                    style={{ color: "#364fc7", width: "100px" }}
+                  />
+                  <div>{`CGPA range: ${cgpa[0]} - ${cgpa[1]}`}</div>
+                </div>
+              </div>
+            )}
             <table id="student">
               <tbody>
                 <tr>
-                  <th>PRN</th>
-                  <th>Name</th>
-                  <th>Branch</th>
-                  <th>CGPA</th>
-                  <th>Resume</th>
-                  <th>Passout Batch</th>
+                  <th
+                    className={`${Styles["sort"]}`}
+                    onClick={() => onSort("prn")}
+                  >
+                    PRN
+                  </th>
+                  <th
+                    className={`${Styles["sort"]}`}
+                    onClick={() => onSort("name")}
+                  >
+                    Name
+                  </th>
+                  <th
+                    className={`${Styles["sort"]}`}
+                    onClick={() => onSort("stream")}
+                  >
+                    Branch
+                  </th>
+                  <th
+                    className={`${Styles["sort"]}`}
+                    onClick={() => onSort("cgpa")}
+                  >
+                    CGPA
+                  </th>
+                  <th>View</th>
+                  <th
+                    className={`${Styles["sort"]}`}
+                    onClick={() => onSort("batch")}
+                  >
+                    Batch
+                  </th>
                 </tr>
               </tbody>
               {/* <tbody>
               <tr onClick={setSelectedRowsHandler}>
                 <td>20UCS001</td>
                 <td>SHIRISH MANOHAR HADPAD</td>
-                <td>COMPUTER SCIENCE AND ENGINEERING</td>
+                <td>cse AND ENGINEERING</td>
                 <td>8.00</td>
                 <td>VIEW</td>
                 <td>2024</td>

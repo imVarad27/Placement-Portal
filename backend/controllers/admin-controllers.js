@@ -280,7 +280,108 @@ const dashboard = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+const applyForDrive = async (req, res, next) => {
+  const cid = req.params.cid;
+  const { selectedstudents } = req.body;
+  let drive;
+  try {
+    drive = await Drive.findById(cid);
+    selectedstudents.forEach((student) => {
+      let found = false;
+      for (let i = 0; i < drive.appliedstudents.length; i++) {
+        if (drive.appliedstudents[i][0]._id.toString() === student._id) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        student = [student];
+        drive.appliedstudents.push(student);
+      }
+    });
+    await drive.save();
+    res.status(200).json({
+      message: "Updated Successfully",
+    });
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not find a company.",
+      500
+    );
+    return next(error);
+  }
+};
 
+const placeStudent = async (req, res, next) => {
+  const cid = req.params.cid;
+  const { selectedstudents } = req.body;
+  let drive;
+  try {
+    drive = await Drive.findById(cid);
+    selectedstudents.forEach(async (student) => {
+      let found = false;
+      for (let i = 0; i < drive.selectedstudents.length; i++) {
+        if (drive.selectedstudents[i][0]._id.toString() === student._id) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        let tempStudent = await User.findById(student._id);
+        student = [student];
+        drive.selectedstudents.push(student);
+        let foundCompany = false;
+        if (tempStudent.placedin === undefined) {
+          tempStudent.placedin = [];
+          await tempStudent.save();
+        }
+        for (let i = 0; i < tempStudent.placedin.length; i++) {
+          if (tempStudent.placedin[i]._id.toString() === drive._id.toString()) {
+            foundCompany = true;
+            break;
+          }
+        }
+        if (!foundCompany) {
+          tempStudent.placedin.push(drive);
+        }
+        await tempStudent.save();
+      }
+    });
+    await drive.save();
+    res.status(200).json({
+      message: "Updated Successfully",
+    });
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not find a company.",
+      500
+    );
+    return next(error);
+  }
+};
+
+const getSelectedStudents = async (req, res, next) => {
+  try {
+    const users = await User.find().sort({ prn: 1 }).populate("placedin");
+
+    let selectedstudents = [];
+    users.forEach((user) => {
+      if (user.placedin.length !== 0) {
+        selectedstudents.push(user);
+      }
+    });
+    res.status(200).json({
+      selectedstudents: selectedstudents,
+    });
+  } catch (error) {
+    const err = new HttpError("Something went wrong", 500);
+    return next(err);
+  }
+};
+
+exports.getSelectedStudents = getSelectedStudents;
+exports.placeStudent = placeStudent;
+exports.applyForDrive = applyForDrive;
 exports.getEligibleStudents = getEligibleStudents;
 exports.getAppliedStudents = getAppliedStudents;
 exports.getCompanyById = getCompanyById;

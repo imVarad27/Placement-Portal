@@ -134,6 +134,16 @@ const StudentSidebar = (props) => {
                     <span className="text nav-text">Dashboard</span>
                   </Link>
                 </li>
+                <li className="nav-link">
+                  <Link
+                    to="/admin/selected"
+                    style={{ textDecoration: "none" }}
+                    onClick={activeHandler.bind(this, 4)}
+                  >
+                    <i className="fa-solid fa-users icon"></i>
+                    <span className="text nav-text">Selected Students</span>
+                  </Link>
+                </li>
               </React.Fragment>
             )}
           </ul>

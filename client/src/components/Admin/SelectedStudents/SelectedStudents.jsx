@@ -1,16 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import Styles from "./EligibleStudents.module.css";
-import { useParams } from "react-router-dom";
+import Styles from "./SelectedStudents.module.css";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import Slider from "@mui/material/Slider";
-import { Alert, AlertTitle, CircularProgress } from "@mui/material";
+import { Alert, AlertTitle } from "@mui/material";
 
-const AppliedStudents = () => {
+const SelectedStudents = () => {
   const [error, setError] = useState();
   const [success, setSuccess] = useState();
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -44,47 +42,6 @@ const AppliedStudents = () => {
 
   const [companyData, setCompanyData] = useState();
   const [studentsData, setStudentsData] = useState([]);
-
-  const cid = useParams();
-
-  useEffect(() => {
-    const getCompanyDetails = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:5500/api/admin/company/${cid.id}`
-        );
-        if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.message);
-        } else {
-          const data = await response.json();
-
-          setCompanyData(data);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getCompanyDetails();
-    const getEligibleStudents = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:5500/api/admin/eligiblestudents/${cid.id}`
-        );
-        if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.message);
-        } else {
-          const data = await response.json();
-          const newArray = [].concat.apply([], data.eligiblestudents);
-          setStudentsData(newArray);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getEligibleStudents();
-  }, []);
 
   const [selectedCheckbox, setSelectedCheckbox] = useState([]);
   const setSelectedRowsHandler = (e) => {
@@ -120,14 +77,21 @@ const AppliedStudents = () => {
     key: null,
     direction: null,
   });
-
   const filteredStudents = studentsData
     .filter(
       (student) =>
         (checked.length === 0 || checked.includes(student?.stream)) &&
         (student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           student.stream.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          student.batch.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          student.batch
+            .toString()
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          (student.placedin &&
+            student.placedin.length > 0 &&
+            student.placedin[0].companydetails.companyname
+              .toString()
+              .includes(searchTerm.toLowerCase())) ||
           student.prn.toLowerCase().includes(searchTerm.toLowerCase())) &&
         student.cgpa >= cgpa[0] &&
         student.cgpa <= cgpa[1]
@@ -164,39 +128,26 @@ const AppliedStudents = () => {
 
     setSortConfig({ key, direction });
   };
-  const updateButtonHandler = async (e) => {
-    e.preventDefault();
-    try {
-      setIsLoading(true);
-      const selectedStudents = selectedCheckbox.map(
-        (index) => filteredStudents[index]
-      );
-      const newArray = selectedStudents.filter((stu) => {
-        return stu !== undefined;
-      });
-      const response = await fetch(
-        `http://localhost:5500/api/admin//movetoapply/${cid.id}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            selectedstudents: newArray,
-          }),
+
+  useEffect(() => {
+    const getEligibleStudents = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5500/api/admin/getselectedstudents/`
+        );
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.message);
+        } else {
+          const data = await response.json();
+          setStudentsData(data.selectedstudents);
         }
-      );
-      if (!response.ok) {
-        const error = await response.json();
-        setError(error.message);
-      } else {
-        setSuccess("Updated Successfully");
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
-    }
-    setIsLoading(false);
-  };
+    };
+    getEligibleStudents();
+  }, []);
 
   return (
     <React.Fragment>
@@ -234,16 +185,7 @@ const AppliedStudents = () => {
       )}
       {studentsData.length > 0 && (
         <div className={`marginleft` + ` ${Styles["applied-students"]}`}>
-          <h3>
-            Eligible Students for{" "}
-            <span
-              style={{
-                fontWeight: 800,
-              }}
-            >
-              {companyData.companydetails.companydetails.companyname}
-            </span>
-          </h3>
+          <h3>Selected Students</h3>
           <div className={`${Styles["table-students"]}`}>
             <div className={`${Styles["table-buttons"]}`}>
               <button onClick={setShowFilterHandler}>
@@ -388,23 +330,10 @@ const AppliedStudents = () => {
                   >
                     Batch
                   </th>
-                  <th>
-                    Select&nbsp;&nbsp;
-                    <input
-                      type="checkbox"
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setSelectedCheckbox(
-                            studentsData.map((_, index) => index)
-                          );
-                        } else {
-                          setSelectedCheckbox([]);
-                        }
-                      }}
-                    />
-                  </th>
+                  <th>Company</th>
                 </tr>
               </tbody>
+
               {filteredStudents.map((student, index) => {
                 return (
                   <tbody key={student._id}>
@@ -423,21 +352,7 @@ const AppliedStudents = () => {
                       <td className={`${Styles["branch-width"]}`}>
                         {student.batch}
                       </td>
-                      <td>
-                        <input
-                          type="checkbox"
-                          checked={selectedCheckbox.includes(index)}
-                          onChange={(e) => {
-                            setSelectedCheckbox((prev) => {
-                              if (prev.includes(index)) {
-                                return prev.filter((i) => i !== index);
-                              } else {
-                                return [...prev, index];
-                              }
-                            });
-                          }}
-                        />
-                      </td>
+                      <td>{student.placedin[0].companydetails.companyname}</td>
                     </tr>
                   </tbody>
                 );
@@ -446,11 +361,8 @@ const AppliedStudents = () => {
           </div>
         </div>
       )}
-      <div className={`${Styles["move-to-apply"]}`}>
-        <button onClick={updateButtonHandler}>Update</button>
-      </div>
     </React.Fragment>
   );
 };
 
-export default AppliedStudents;
+export default SelectedStudents;

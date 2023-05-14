@@ -93,6 +93,7 @@ td.branch-width {
   justify-content: space-between;
 }
 .search-box {
+  margin-top: 10px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -108,4 +109,39 @@ td.branch-width {
 .export-buttons {
   display: flex;
   gap: 20px;
+}
+.checkbox-style {
+  display: flex;
+  gap: 50px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.checkbox-style input[type="checkbox"] {
+  display: flex;
+  flex-direction: row;
+  width: 20px;
+  align-items: center;
+  justify-content: center;
+}
+.checkbox-style__content {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.sort:hover {
+  color: #364fc7;
+}
+.sort:hover::after {
+  content: "\f0dc"; /* content property sets the Unicode character code for the icon */
+  font-family: "Font Awesome 5 Free"; /* the font family for the icon */
+  font-weight: 900; /* the font weight for the icon */
+  margin-left: 5px; /* add some space between the icon and the text */
+}
+.slider {
+  padding: 10px 10px;
+}
+.filter-box {
+  padding: 10px 10px;
+  background-color: whitesmoke;
+  margin-bottom: 10px;
 }

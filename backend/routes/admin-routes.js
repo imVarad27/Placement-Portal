@@ -22,5 +22,8 @@ router.get("/company/:cid", adminController.getCompanyById);
 
 router.get("/appliedstudents/:cid", adminController.getAppliedStudents);
 router.get("/eligiblestudents/:cid", adminController.getEligibleStudents);
+router.post("/movetoapply/:cid", adminController.applyForDrive);
+router.post("/movetoplace/:cid", adminController.placeStudent);
+router.get("/getselectedstudents/", adminController.getSelectedStudents);
 
 module.exports = router;

@@ -3,6 +3,7 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import Welcome from "./components/Welcome";
 import LoginPage from "./pages/LoginPage";
+
 import Home from "./components/Home";
 import {
   BrowserRouter as Router,
@@ -11,6 +12,7 @@ import {
   Switch,
 } from "react-router-dom";
 import RegisterPage from "./pages/RegisterPage";
+import SelectedStudents from "./components/Admin/SelectedStudents/SelectedStudents";
 import { AuthContext } from "./components/context/auth-context";
 import StudentSidebar from "./components/StudentPage/StudentSidebar";
 import StudentProfile from "./components/StudentPage/StudentProfile";
@@ -69,6 +71,9 @@ function App() {
           </Route>
           <Route path="/admin/company/:id/applied/" exact>
             <AppliedStudents />
+          </Route>
+          <Route path="/admin/selected/" exact>
+            <SelectedStudents />
           </Route>
         </Switch>
         <Redirect to="/admin" exact />
