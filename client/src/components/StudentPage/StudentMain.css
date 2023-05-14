@@ -1,0 +1,129 @@
+.studentmain-container {
+  display: flex;
+  gap: 30px;
+}
+.studentmain-container h3 {
+  text-align: center;
+  margin-top: 20px;
+  text-align: left;
+  margin-bottom: 25px;
+}
+
+.studentmain-profile {
+  width: 450px;
+  height: 430px;
+  padding: 0 20px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+.studentmain-contact {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+.studentmain-contact div {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.studentmain-profile__img {
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+  display: block;
+  padding: 20px 20px;
+}
+
+/* form */
+.student-form {
+  padding: 0 20px;
+}
+.studentmain-profiledetails {
+  background-color: white;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 20px 20px;
+}
+.studentmain-form-content {
+  display: flex;
+  gap: 60px;
+  margin-bottom: 15px;
+}
+.studentmain-form-values {
+  display: flex;
+  flex-direction: column;
+}
+
+/* form style */
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  width: 50%;
+  background-color: whitesmoke;
+}
+.studentmain-profiledetails__details h2 {
+  color: #364fc7;
+  font-weight: 800;
+  font-size: 30px;
+  margin-top: 70px;
+  margin-bottom: 20px;
+}
+.studentmain-profiledetails__details p {
+  color: #364fc7;
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+.studentmain-profiledetails__details input {
+  width: 350px;
+  height: 40px;
+  border: 1px solid #364fc7;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+}
+.address-field input {
+  width: 700px;
+}
+
+.loading-with-button__create-drive {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+}
+
+.studentmain-form-content button {
+  width: 200px;
+  height: 40px;
+  border: 1px solid #364fc7;
+  border-radius: 5px;
+  color: #364fc7;
+  background-color: #364fc7;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+.studentmain-form-content button:active,
+.studentmain-form-content button:hover {
+  background-color: #4c6ef5;
+  color: white;
+}
+
+.login a {
+  text-decoration: none;
+}
+
+/* input field where attribute is readOnly */
+.studentmain-form-content input[readonly] {
+  background-color: #f4f4f4;
+  cursor: not-allowed;
+}

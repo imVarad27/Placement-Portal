@@ -1,0 +1,44 @@
+.job-content-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.job-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+.job-content-info h2 {
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+}
+.active-drive {
+  padding: 20px 0px;
+}
+.btn {
+  background-color: #364fc7;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: auto;
+  height: 55px;
+}
+.btn:hover {
+  color: white;
+  background-color: #4c6ef5;
+}
+.btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}

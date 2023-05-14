@@ -1,0 +1,66 @@
+.card {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  max-width: 1100px;
+  margin: 24px 0px;
+  position: relative;
+}
+.company-registration h3:first-child {
+  margin-top: 20px;
+}
+
+.card img {
+  width: 100%;
+  max-width: 200px;
+  margin-right: 20px;
+}
+
+.job-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0 0 20px;
+}
+
+.card .btn-apply {
+  background-color: #364fc7;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: auto;
+  height: 55px;
+}
+.card .btn-apply:hover {
+  background-color: #4c6ef5;
+}
+.card .btn-apply {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.card .job-content {
+  width: 60%;
+}
+
+.job-content-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}

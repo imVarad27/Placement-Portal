@@ -1,0 +1,76 @@
+.view-company {
+  padding: 16px 0px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  margin-top: 16px;
+  padding: 20px 28px;
+  position: relative;
+}
+.company-title {
+  font-size: 24px;
+  margin: 0 0 10px;
+  font-weight: 600;
+}
+.company-info {
+  display: flex;
+  align-items: center;
+}
+.company-info img {
+  width: 150px;
+  height: 100px;
+  margin-right: 20px;
+}
+.company-description h3 {
+  margin-top: 24px;
+}
+.company-description p {
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+.shift-to-right {
+  margin-left: 25px;
+  margin-top: 5px;
+}
+.shift-to-right h4 {
+  margin-bottom: 4px;
+}
+.shift-to-right ul li {
+  margin-left: 30px;
+}
+.btn-apply {
+  background-color: #364fc7;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 10px 20px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-left: auto;
+  height: 45px;
+}
+.btn-apply:hover {
+  background-color: #4c6ef5;
+}
+.btn-apply {
+  /* position: absolute;
+  top: 0;
+  right: 0; */
+  /* margin: 18px; */
+}
+.about-company {
+  display: flex;
+  flex-direction: column;
+}
+.about-company span {
+  display: inline-block;
+  color: #364fc7;
+}
+.admin-buttons {
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  gap: 10px;
+}
