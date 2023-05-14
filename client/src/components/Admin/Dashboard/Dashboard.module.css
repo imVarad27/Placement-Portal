@@ -89,6 +89,23 @@ td.branch-width {
 .table-buttons {
   display: flex;
   align-items: center;
-  flex-direction: row-reverse;
   gap: 30px;
+  justify-content: space-between;
+}
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.search-box input {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  font-size: 16px;
+  width: 300px;
+}
+.export-buttons {
+  display: flex;
+  gap: 20px;
 }

@@ -1,9 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Styles from "./Dashboard.module.css";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import * as XLSX from "xlsx";
 const Dashboard = () => {
+  const searchInputRef = useRef();
+
   const handlePrint = () => {
     const doc = new jsPDF();
     doc.autoTable({ html: "#student" });
@@ -25,6 +27,8 @@ const Dashboard = () => {
     XLSX.writeFile(workbook, "students.xlsx");
   };
 
+  // search
+
   const [studentsData, setStudentsData] = useState([]);
   useEffect(() => {
     const getDashboard = async () => {
@@ -39,7 +43,6 @@ const Dashboard = () => {
           const data = await response.json();
           const newArray = [].concat.apply([], data.students);
           setStudentsData(newArray);
-          console.log(newArray);
         }
       } catch (err) {
         console.log(err);
@@ -47,6 +50,7 @@ const Dashboard = () => {
     };
     getDashboard();
   }, []);
+
   const [selectedCheckbox, setSelectedCheckbox] = useState([]);
   const setSelectedRowsHandler = (e) => {
     const index = e.target.parentNode.rowIndex - 1;
@@ -95,6 +99,29 @@ const Dashboard = () => {
     };
   });
 
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredStudents = studentsData.filter(
+    (student) =>
+      student.name
+        .toString()
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      student.stream
+        .toString()
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      student.batch
+        .toString()
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      student.prn.toString().toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <React.Fragment>
       {studentsData.length > 0 && (
@@ -102,22 +129,33 @@ const Dashboard = () => {
           <h3> Dashboard</h3>
           <div className={`${Styles["table-students"]}`}>
             <div className={`${Styles["table-buttons"]}`}>
-              <button onClick={handleExport}>
-                <i
-                  className={
-                    `${Styles["pdf-icon"]}` + ` fa-regular fa-file-excel`
-                  }
-                ></i>
-                Download
-              </button>
-              <button onClick={handlePrint}>
-                <i
-                  className={
-                    `${Styles["pdf-icon"]}` + ` fa-regular fa-file-pdf`
-                  }
-                ></i>
-                Download
-              </button>
+              <div className={`${Styles["search-box"]}`}>
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  placeholder="Search"
+                  onChange={handleSearchChange}
+                ></input>
+              </div>
+              <div className={`${Styles["export-buttons"]}`}>
+                <button onClick={handleExport}>
+                  <i
+                    className={
+                      `${Styles["pdf-icon"]}` + ` fa-regular fa-file-excel`
+                    }
+                  ></i>
+                  Download
+                </button>
+                <button onClick={handlePrint}>
+                  <i
+                    className={
+                      `${Styles["pdf-icon"]}` + ` fa-regular fa-file-pdf`
+                    }
+                  ></i>
+                  Download
+                </button>
+              </div>
             </div>
             <table id="student">
               <tbody>
@@ -150,7 +188,7 @@ const Dashboard = () => {
                 </td>
               </tr>
             </tbody> */}
-              {studentsData.map((student, index) => {
+              {filteredStudents.map((student, index) => {
                 return (
                   <tbody key={student._id}>
                     <tr onClick={setSelectedRowsHandler}>
