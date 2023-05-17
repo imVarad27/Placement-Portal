@@ -154,3 +154,24 @@ button:hover {
   margin-bottom: 10px;
   transform: translateX(-50%);
 }
+.flex {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+option {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: 0.2px;
+  color: rgb(119, 119, 119);
+}
+select {
+  width: 200px;
+  height: 35px;
+  border: 1px solid rgba(0, 0, 0, 0.22);
+  border-radius: 2px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+}

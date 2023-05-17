@@ -204,10 +204,14 @@ const getEligibleStudents = async (req, res, next) => {
       model: "User",
     });
     eligiblestudents = drive.eligiblestudents;
-    // destroy the eligible students array
     await drive.save();
+    const option = drive.packagedetails.allowplacedstudents;
+    let allowHigher = false;
+    if (option.includes("Higher")) {
+      allowHigher = true;
+    }
     if (eligiblestudents.length === 0) {
-      const users = await User.find();
+      const users = await User.find().populate("placedin");
       const neweligiblestudents = users.filter((user) => {
         const branches = drive.studenteligibilitydetails.eligiblebranches;
         let userBranch = user.stream;
@@ -230,17 +234,62 @@ const getEligibleStudents = async (req, res, next) => {
         if (userBranch.includes("Civil")) {
           userBranch = "Civil";
         }
-
-        const isBranchEligible = branches.includes(userBranch);
-        const isCGPAEligible =
-          user.cgpa >= drive.studenteligibilitydetails.minimumcgpa;
-        const is10th =
-          user.ssc >= drive.studenteligibilitydetails.minimum10thpercentage;
-        const is12th =
-          user.hsc >= drive.studenteligibilitydetails.minimum12thpercentage;
-
-        if (isBranchEligible && isCGPAEligible && is10th && is12th) {
-          return user;
+        let package = drive.packagedetails.packageoffered;
+        package = parseInt(package);
+        let maxPackage = 0;
+        let allowStudent = false;
+        if (allowHigher) {
+          const placedInArray = user.placedin;
+          placedInArray.forEach((company) => {
+            let currentPackage = company.packagedetails.packageoffered;
+            currentPackage = parseInt(currentPackage);
+            if (currentPackage > maxPackage) {
+              maxPackage = currentPackage;
+            }
+          });
+          if (package > maxPackage) {
+            allowStudent = true;
+          }
+          const isBranchEligible = branches.includes(userBranch);
+          const isCGPAEligible =
+            user.cgpa >= drive.studenteligibilitydetails.minimumcgpa;
+          const is10th =
+            user.ssc >= drive.studenteligibilitydetails.minimum10thpercentage;
+          const is12th =
+            user.hsc >= drive.studenteligibilitydetails.minimum12thpercentage;
+          const minimumbacklogs =
+            user.backlogs <= drive.studenteligibilitydetails.minimumbacklogs;
+          if (
+            isBranchEligible &&
+            isCGPAEligible &&
+            is10th &&
+            is12th &&
+            allowStudent &&
+            minimumbacklogs
+          ) {
+            return user;
+          }
+        } else {
+          const isBranchEligible = branches.includes(userBranch);
+          const isCGPAEligible =
+            user.cgpa >= drive.studenteligibilitydetails.minimumcgpa;
+          const is10th =
+            user.ssc >= drive.studenteligibilitydetails.minimum10thpercentage;
+          const is12th =
+            user.hsc >= drive.studenteligibilitydetails.minimum12thpercentage;
+          const minimumbacklogs =
+            user.backlogs <= drive.studenteligibilitydetails.minimumbacklogs;
+          const placedinLength = user.placedin.length === 0;
+          if (
+            isBranchEligible &&
+            isCGPAEligible &&
+            is10th &&
+            is12th &&
+            minimumbacklogs &&
+            placedinLength
+          ) {
+            return user;
+          }
         }
       });
       const arrayForDB = neweligiblestudents.map((student) => [student]);
@@ -326,15 +375,25 @@ const placeStudent = async (req, res, next) => {
           break;
         }
       }
+      if (found) {
+        let tempStudent = await User.findById(student._id);
+        let foundCompany = false;
+        for (let i = 0; i < tempStudent.placedin.length; i++) {
+          if (tempStudent.placedin[i]._id.toString() === drive._id.toString()) {
+            foundCompany = true;
+            break;
+          }
+        }
+        if (!foundCompany) {
+          tempStudent.placedin.push(drive);
+        }
+        await tempStudent.save();
+      }
       if (!found) {
         let tempStudent = await User.findById(student._id);
         student = [student];
         drive.selectedstudents.push(student);
         let foundCompany = false;
-        if (tempStudent.placedin === undefined) {
-          tempStudent.placedin = [];
-          await tempStudent.save();
-        }
         for (let i = 0; i < tempStudent.placedin.length; i++) {
           if (tempStudent.placedin[i]._id.toString() === drive._id.toString()) {
             foundCompany = true;

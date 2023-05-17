@@ -27,7 +27,9 @@ const SelectedStudents = () => {
 
   const handlePrint = () => {
     const doc = new jsPDF();
-    doc.autoTable({ html: "#student" });
+    const tableElement = document.getElementById("student");
+
+    doc.autoTable({ html: tableElement, theme: "grid" });
     doc.save("table.pdf");
   };
 
@@ -77,7 +79,58 @@ const SelectedStudents = () => {
     key: null,
     direction: null,
   });
+
+  // const filteredStudents = studentsData
+  //   .filter(
+  //     (student) =>
+  //       (checked.length === 0 || checked.includes(student?.stream)) &&
+  //       (student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //         student.stream.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //         student.batch
+  //           .toString()
+  //           .toLowerCase()
+  //           .includes(searchTerm.toLowerCase()) ||
+  //         (student.placedin &&
+  //           student.placedin.length > 0 &&
+  //           student.placedin[0].companydetails.companyname
+  //             .toString()
+  //             .includes(searchTerm.toLowerCase())) ||
+  //         student.prn.toLowerCase().includes(searchTerm.toLowerCase())) &&
+  //       student.cgpa >= cgpa[0] &&
+  //       student.cgpa <= cgpa[1]
+  //   )
+  //   .sort((a, b) => {
+  //     if (!sortConfig.key) {
+  //       return 0;
+  //     }
+
+  //     const directionModifier = sortConfig.direction === "ascending" ? 1 : -1;
+  //     const aKey = a[sortConfig.key];
+  //     const bKey = b[sortConfig.key];
+
+  //     if (aKey < bKey) {
+  //       return -1 * directionModifier;
+  //     }
+
+  //     if (aKey > bKey) {
+  //       return 1 * directionModifier;
+  //     }
+
+  //     return 0;
+  //   });
+  const [selectedCompany, setSelectedCompany] = useState("");
+
   const filteredStudents = studentsData
+    .filter((student) => {
+      if (selectedCompany === "") {
+        return true;
+      }
+      return student.placedin.some(
+        (placement) =>
+          placement.companydetails.companyname.toLowerCase() ===
+          selectedCompany.toLowerCase()
+      );
+    })
     .filter(
       (student) =>
         (checked.length === 0 || checked.includes(student?.stream)) &&
@@ -89,10 +142,25 @@ const SelectedStudents = () => {
             .includes(searchTerm.toLowerCase()) ||
           (student.placedin &&
             student.placedin.length > 0 &&
-            student.placedin[0].companydetails.companyname
+            student.placedin.some((placement) =>
+              placement.companydetails.companyname
+                .toString()
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase())
+            )) ||
+          student.prn.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          selectedCompany === "" ||
+          student.placedin.some(
+            (placement) =>
+              placement.companydetails.companyname.toString().toLowerCase() ===
+              selectedCompany.toString().toLowerCase()
+          ) ||
+          student.placedin.some((placement) =>
+            placement.companydetails.companyname
               .toString()
-              .includes(searchTerm.toLowerCase())) ||
-          student.prn.toLowerCase().includes(searchTerm.toLowerCase())) &&
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase())
+          )) &&
         student.cgpa >= cgpa[0] &&
         student.cgpa <= cgpa[1]
     )
@@ -115,7 +183,6 @@ const SelectedStudents = () => {
 
       return 0;
     });
-
   const onSort = (key) => {
     let direction = "ascending";
     if (
@@ -141,6 +208,14 @@ const SelectedStudents = () => {
         } else {
           const data = await response.json();
           setStudentsData(data.selectedstudents);
+          // studentsData.forEach((student) => {
+          //   console.log(
+          //     student.placedin[0].companydetails.companyname
+          //       .toString()
+          //       .toLowerCase() === selectedCompany.toLowerCase()
+          //   );
+          // });
+          // console.log(selectedCompany);
         }
       } catch (err) {
         console.log(err);
@@ -149,6 +224,13 @@ const SelectedStudents = () => {
     getEligibleStudents();
   }, []);
 
+  const companyArray = filteredStudents.flatMap((student) =>
+    student.placedin.flatMap((placement) => {
+      const companyNames = placement.companydetails.companyname.split(" / ");
+      return companyNames;
+    })
+  );
+  const companySet = new Set(companyArray);
   return (
     <React.Fragment>
       {error && (
@@ -183,6 +265,7 @@ const SelectedStudents = () => {
           {success}
         </Alert>
       )}
+
       {studentsData.length > 0 && (
         <div className={`marginleft` + ` ${Styles["applied-students"]}`}>
           <h3>Selected Students</h3>
@@ -282,17 +365,35 @@ const SelectedStudents = () => {
                     <label htmlFor="Civil">Civil</label>
                   </div>
                 </div>
-                <div className={`${Styles["slider"]}}`}>
-                  <Slider
-                    value={cgpa}
-                    onChange={cgpaChangeHandler}
-                    valueLabelDisplay="auto"
-                    min={0}
-                    max={10}
-                    step={0.1}
-                    style={{ color: "#364fc7", width: "100px" }}
-                  />
-                  <div>{`CGPA range: ${cgpa[0]} - ${cgpa[1]}`}</div>
+                <div className={`${Styles["flex"]}`}>
+                  <div className={`${Styles["slider"]}}`}>
+                    <Slider
+                      value={cgpa}
+                      onChange={cgpaChangeHandler}
+                      valueLabelDisplay="auto"
+                      min={0}
+                      max={10}
+                      step={0.1}
+                      style={{ color: "#364fc7", width: "100px" }}
+                    />
+                    <div>{`CGPA range: ${cgpa[0]} - ${cgpa[1]}`}</div>
+                  </div>
+                  <div>
+                    {/* <div>
+                      <label htmlFor="companyselector">Select Company</label>
+                    </div> */}
+                    <select
+                      name="companyselector"
+                      onChange={(e) => setSelectedCompany(e.target.value)}
+                    >
+                      <option value="">Select a company</option>
+                      {[...companySet].map((option, index) => (
+                        <option key={index} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
               </div>
             )}
@@ -331,6 +432,7 @@ const SelectedStudents = () => {
                     Batch
                   </th>
                   <th>Company</th>
+                  <th>Package</th>
                 </tr>
               </tbody>
 
@@ -352,7 +454,29 @@ const SelectedStudents = () => {
                       <td className={`${Styles["branch-width"]}`}>
                         {student.batch}
                       </td>
-                      <td>{student.placedin[0].companydetails.companyname}</td>
+                      {/* <td>{student.placedin[0].companydetails.companyname}</td> */}
+                      <td>
+                        {student.placedin.map((placement, index) => (
+                          <React.Fragment key={index}>
+                            {placement.companydetails.companyname}
+                            {index !== student.placedin.length - 1 && "/ "}
+                          </React.Fragment>
+                        ))}
+                      </td>
+                      <td>
+                        {student.placedin.map((placement, index) => (
+                          <React.Fragment key={index}>
+                            <span
+                              style={{
+                                fontWeight: "550",
+                              }}
+                            >
+                              {placement.packagedetails.packageoffered + ` LPA`}
+                              {index !== student.placedin.length - 1 && " / "}
+                            </span>
+                          </React.Fragment>
+                        ))}
+                      </td>
                     </tr>
                   </tbody>
                 );
