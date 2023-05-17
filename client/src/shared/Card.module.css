@@ -70,7 +70,8 @@
   right: 0;
   margin: 10px;
   transform: translateY(-50%);
-  width: 100px;
+  width: 97px;
+  height: 37px;
 }
 
 .card .btn-delete {
@@ -80,7 +81,8 @@
   margin: 10px;
   transform: translateY(40%);
   margin-bottom: 10px;
-  width: 100px;
+  width: 97px;
+  height: 37px;
 }
 .hover-effect {
   text-decoration: none;
