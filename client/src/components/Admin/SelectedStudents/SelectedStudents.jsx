@@ -127,15 +127,21 @@ const SelectedStudents = () => {
       }
       return student.placedin.some(
         (placement) =>
-          placement.companydetails.companyname.toLowerCase() ===
+          placement.companydetails.companyname.toString().toLowerCase() ===
           selectedCompany.toLowerCase()
       );
     })
     .filter(
       (student) =>
         (checked.length === 0 || checked.includes(student?.stream)) &&
-        (student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          student.stream.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (student.name
+          .toString()
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+          student.stream
+            .toLowerCase()
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
           student.batch
             .toString()
             .toLowerCase()
@@ -148,13 +154,11 @@ const SelectedStudents = () => {
                 .toLowerCase()
                 .includes(searchTerm.toLowerCase())
             )) ||
-          student.prn.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          selectedCompany === "" ||
-          student.placedin.some(
-            (placement) =>
-              placement.companydetails.companyname.toString().toLowerCase() ===
-              selectedCompany.toString().toLowerCase()
-          ) ||
+          student.prn
+            .toString()
+            .toLowerCase()
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
           student.placedin.some((placement) =>
             placement.companydetails.companyname
               .toString()
@@ -195,7 +199,6 @@ const SelectedStudents = () => {
 
     setSortConfig({ key, direction });
   };
-
   useEffect(() => {
     const getEligibleStudents = async () => {
       try {

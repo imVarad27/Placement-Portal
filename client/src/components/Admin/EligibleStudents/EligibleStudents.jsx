@@ -125,10 +125,22 @@ const AppliedStudents = () => {
     .filter(
       (student) =>
         (checked.length === 0 || checked.includes(student?.stream)) &&
-        (student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          student.stream.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          student.batch.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          student.prn.toLowerCase().includes(searchTerm.toLowerCase())) &&
+        (student.name
+          .toString()
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+          student.stream
+            .toString()
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          student.batch
+            .toString()
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          student.prn
+            .toString()
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase())) &&
         student.cgpa >= cgpa[0] &&
         student.cgpa <= cgpa[1]
     )
