@@ -2,6 +2,7 @@ const User = require("../models/user");
 const Drive = require("../models/drive");
 const { validationResult } = require("express-validator");
 const HttpError = require("../models/HttpError");
+const newUser = require("../models/user");
 
 const loginUser = async (req, res, next) => {
   const errors = validationResult(req);
@@ -27,6 +28,7 @@ const loginUser = async (req, res, next) => {
 };
 
 const updateProfile = async (req, res, next) => {
+  console.log("Enter in Update");
   const { userid, city, state, contact, email, address } = req.body;
   let user;
   try {
@@ -101,9 +103,93 @@ const applyDrive = async (req, res, next) => {
   }
   res.status(201).json({ user: user.toObject({ getters: true }) });
 };
+const register = async (req, res, next) => {
+  console.log("Enter in Update");
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const error = new HttpError("Invalid inputs passed", 422);
+    return next(error);
+  }
+  const {
+    name,
+    prn,
+    password,
+    contact,
+    email,
+    stream,
+    batch,
+    cgpa,
+    isselected,
+    kt,
+    ssc,
+    hsc,
+    backlog,
+    livebacklog,
+    image,
+    city,
+    state,
+    address,
+  } = req.body;
+  //let user;
+  try {
+    // Check if the PRN is already registered
+    console.log("Received data:", req.body);
+    const kt = Boolean(req.body.kt);
+    const existingUser = await User.findOne({ prn });
+    if (
+      name == "" ||
+      stream == "" ||
+      cgpa == 0 ||
+      email == "" ||
+      password == "" ||
+      password.length < 8
+    ) {
+      const error = new HttpError("Enter Valid Details", 422);
+      return next(error);
+    }
+
+    console.log(existingUser);
+    if (existingUser) {
+      const error = new HttpError("PRN already registered", 422);
+      return next(error);
+    }
+    console.log("Creating User");
+    const newUser = new User({
+      name,
+      prn,
+      password,
+      contact,
+      email,
+      stream,
+      batch,
+      cgpa,
+      isselected,
+      kt,
+      ssc,
+      hsc,
+      backlog,
+      livebacklog,
+      image,
+      city,
+      state,
+      address,
+    });
+    console.log(newUser);
+    await newUser.save();
+    console.log("User saved successfully:", newUser);
+    res.status(201).json({
+      message: "Student registered successfully",
+      user: newUser.toObject({ getters: true }),
+    });
+  } catch (err) {
+    // Handle other errors (e.g., database connection error)
+    console.error(err);
+    const error = new HttpError("Registration failed", 500);
+  }
+};
 
 exports.applyDrive = applyDrive;
-
+exports.register = register;
 exports.updatePassword = updatePassword;
 exports.updateProfile = updateProfile;
 exports.loginUser = loginUser;
