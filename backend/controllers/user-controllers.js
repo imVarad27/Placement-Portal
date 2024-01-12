@@ -136,18 +136,6 @@ const register = async (req, res, next) => {
     console.log("Received data:", req.body);
     const kt = Boolean(req.body.kt);
     const existingUser = await User.findOne({ prn });
-    if (
-      name == "" ||
-      stream == "" ||
-      cgpa == 0 ||
-      email == "" ||
-      password == "" ||
-      password.length < 8
-    ) {
-      const error = new HttpError("Enter Valid Details", 422);
-      return next(error);
-    }
-
     console.log(existingUser);
     if (existingUser) {
       const error = new HttpError("PRN already registered", 422);

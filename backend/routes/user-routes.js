@@ -25,7 +25,7 @@ router.post(
     check("prn").toUpperCase().isLength({ max: 8, min: 8 }),
     check("password").isLength({ min: 2 }),
   ],
-  userController.loginUser
+  userController.register
 );
 
 module.exports = router;

@@ -23,7 +23,7 @@ const UserRegister = () => {
     hsc: 0,
     backlogs: 0,
     livebacklogs: 0,
-    image: "https://api.dicebear.com/6.x/initials/svg?seed=ADNAN+BARGIR}",
+    image: `https://api.dicebear.com/6.x/initials/svg?seed=ADNAN+BARGIR}`,
     city: "",
     state: "",
     address: "",
