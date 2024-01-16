@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const userRoutes = require("./routes/user-routes");
 const adminRoutes = require("./routes/admin-routes");
+const imageRoutes = require("./routes/drive-routes");
 const cors = require("cors");
 const session = require("express-session");
 const mongoose = require("mongoose");
@@ -19,6 +20,7 @@ app.use(
 
 app.use("/api/user/", userRoutes);
 app.use("/api/admin/", adminRoutes);
+app.use("/api/", imageRoutes);
 
 app.use((error, req, res, next) => {
   if (res.headerSent) {
@@ -38,4 +40,3 @@ mongoose
   .catch((err) => console.log(err));
 
 app.listen(5500);
-
